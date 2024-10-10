@@ -7,7 +7,7 @@ class Select extends StatelessWidget {
     required this.icon,
     required this.items,
     required this.onChanged,
-    required this.value,
+    this.value,
     this.hint,
     this.validator,
   });

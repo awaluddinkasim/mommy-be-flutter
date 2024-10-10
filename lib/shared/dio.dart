@@ -14,7 +14,8 @@ class Request {
     Map<String, dynamic>? headers,
   }) async {
     try {
-      final Response response = await _dio.get(url, options: Options(headers: headers));
+      final Response response =
+          await _dio.get(url, options: Options(headers: headers));
       return response.data;
     } on DioException catch (e) {
       throw _handleError(e);
@@ -60,7 +61,8 @@ class Request {
     Map<String, dynamic>? headers,
   }) async {
     try {
-      final Response response = await _dio.delete(url, options: Options(headers: headers));
+      final Response response =
+          await _dio.delete(url, options: Options(headers: headers));
       return response.data;
     } on DioException catch (e) {
       throw _handleError(e);
@@ -69,6 +71,7 @@ class Request {
 
   static String _handleError(DioException error) {
     String errorDescription = "";
+    print(error.type);
     switch (error.type) {
       case DioExceptionType.connectionTimeout:
         errorDescription = "Koneksi timeout";
