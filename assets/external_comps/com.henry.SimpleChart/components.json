@@ -1,0 +1,217 @@
+[{
+ "categoryString": "EXTENSION",
+ "dateBuilt": "2021-01-02T15:25:36+0530",
+ "nonVisible": "true",
+ "iconName": "https://icons.iconarchive.com/icons/vexels/office/16/chart-icon.png",
+ "methods": [
+  {
+   "deprecated": "false",
+   "name": "ClearAllCharts",
+   "description": "Clears All Charts",
+   "params": [{
+    "name": "arrangement",
+    "type": "component"
+   }]
+  },
+  {
+   "deprecated": "false",
+   "name": "CreateBarChart",
+   "description": "Creates Bar Graph",
+   "params": [
+    {
+     "name": "arrangement",
+     "type": "component"
+    },
+    {
+     "name": "height",
+     "type": "number"
+    },
+    {
+     "name": "width",
+     "type": "number"
+    },
+    {
+     "name": "animationDuration",
+     "type": "number"
+    },
+    {
+     "name": "barColors",
+     "type": "list"
+    },
+    {
+     "name": "yAxisPoints",
+     "type": "list"
+    },
+    {
+     "name": "xAxisPoints",
+     "type": "list"
+    },
+    {
+     "name": "legends",
+     "type": "list"
+    },
+    {
+     "name": "dataSetName",
+     "type": "text"
+    },
+    {
+     "name": "description",
+     "type": "text"
+    },
+    {
+     "name": "descriptionTextSize",
+     "type": "number"
+    },
+    {
+     "name": "descriptionTextColor",
+     "type": "number"
+    }
+   ]
+  },
+  {
+   "deprecated": "false",
+   "name": "CreateLineGraph",
+   "description": "Creates a Line graph",
+   "params": [
+    {
+     "name": "arrangement",
+     "type": "component"
+    },
+    {
+     "name": "height",
+     "type": "number"
+    },
+    {
+     "name": "width",
+     "type": "number"
+    },
+    {
+     "name": "animationDuration",
+     "type": "number"
+    },
+    {
+     "name": "valuesTextSize",
+     "type": "number"
+    },
+    {
+     "name": "lineWidthSize",
+     "type": "number"
+    },
+    {
+     "name": "valueTextColor",
+     "type": "number"
+    },
+    {
+     "name": "lineColors",
+     "type": "list"
+    },
+    {
+     "name": "xAxisPoints",
+     "type": "list"
+    },
+    {
+     "name": "yAxisPoints",
+     "type": "list"
+    },
+    {
+     "name": "dataSetName",
+     "type": "text"
+    },
+    {
+     "name": "description",
+     "type": "text"
+    }
+   ]
+  },
+  {
+   "deprecated": "false",
+   "name": "CreatePieChart",
+   "description": "Create a simple pie chart",
+   "params": [
+    {
+     "name": "arrangement",
+     "type": "component"
+    },
+    {
+     "name": "height",
+     "type": "number"
+    },
+    {
+     "name": "width",
+     "type": "number"
+    },
+    {
+     "name": "centreTextColor",
+     "type": "number"
+    },
+    {
+     "name": "captionColor",
+     "type": "number"
+    },
+    {
+     "name": "captionTextSize",
+     "type": "number"
+    },
+    {
+     "name": "drawCentreHole",
+     "type": "boolean"
+    },
+    {
+     "name": "valueColors",
+     "type": "list"
+    },
+    {
+     "name": "subtitleColors",
+     "type": "list"
+    },
+    {
+     "name": "valueNames",
+     "type": "list"
+    },
+    {
+     "name": "values",
+     "type": "list"
+    },
+    {
+     "name": "centerText",
+     "type": "text"
+    },
+    {
+     "name": "centerTextSize",
+     "type": "number"
+    },
+    {
+     "name": "textSize",
+     "type": "number"
+    },
+    {
+     "name": "dataSetName",
+     "type": "text"
+    },
+    {
+     "name": "description",
+     "type": "text"
+    },
+    {
+     "name": "animationDuration",
+     "type": "number"
+    },
+    {
+     "name": "usePercentage",
+     "type": "boolean"
+    }
+   ]
+  }
+ ],
+ "blockProperties": [],
+ "helpUrl": "",
+ "type": "com.henry.SimpleChart.SimpleChart",
+ "androidMinSdk": 7,
+ "version": "2",
+ "external": "true",
+ "showOnPalette": "true",
+ "name": "SimpleChart",
+ "helpString": "A simple extension that allows you to create graph easily in Kodular and other MIT app inventor based app builders <br> <b> Developed By Henry Richard J.<\/b> <br> <a href='https://www.paypal.com/paypalme/henryrics'>Donate<\/a>",
+ "properties": [],
+ "events": []
+}]
