@@ -12,8 +12,6 @@ class LaktasiService {
           'Authorization': 'Bearer $token',
         });
 
-    print(response);
-
     List<Laktasi> laktasiList = [];
     for (var item in response['data']['riwayatLaktasi']) {
       laktasiList.add(Laktasi.fromJson(item));

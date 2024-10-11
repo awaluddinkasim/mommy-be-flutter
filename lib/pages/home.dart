@@ -20,36 +20,39 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+    final user = context.read<AuthCubit>().user;
+
     return Scaffold(
       body: SafeArea(
-        child: BlocListener<AuthCubit, AuthState>(
-          listener: (context, state) {
-            if (state is AuthLoading) {
-              showDialog(
-                context: context,
-                barrierDismissible: false,
-                builder: (context) => const LoadingDialog(),
-              );
-            }
-            if (state is AuthInitial) {
-              Navigator.pop(context);
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => const LoginScreen()),
-                (route) => false,
-              );
-            }
-          },
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Row(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              BlocListener<AuthCubit, AuthState>(
+                listener: (context, state) {
+                  if (state is AuthLoading) {
+                    showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (context) => const LoadingDialog(),
+                    );
+                  }
+                  if (state is AuthInitial) {
+                    Navigator.pop(context);
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const LoginScreen()),
+                      (route) => false,
+                    );
+                  }
+                },
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text(
-                      'Selamat Datang',
+                      'Welcome',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
@@ -67,136 +70,134 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 28),
-                Image.asset('assets/main.png'),
-                const SizedBox(height: 28),
-                const Text(
-                  'Menu',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                    color: Colors.black54,
-                  ),
+              ),
+              const SizedBox(height: 28),
+              Image.asset('assets/main.png'),
+              const SizedBox(height: 28),
+              const Text(
+                'Menu',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  color: Colors.black54,
                 ),
-                const SizedBox(height: 8),
-                if (MediaQuery.of(context).orientation == Orientation.landscape)
-                  GridView(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 8,
-                      mainAxisSpacing: 8,
-                      childAspectRatio: 7 / 8,
+              ),
+              const SizedBox(height: 8),
+              if (MediaQuery.of(context).orientation == Orientation.landscape)
+                GridView(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 8,
+                    mainAxisSpacing: 8,
+                    childAspectRatio: 7 / 8,
+                  ),
+                  children: [
+                    GridMenuItem(
+                      onTap: () {
+                        context.read<BayiCubit>().getBayi();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const BabyScreen(),
+                          ),
+                        );
+                      },
+                      image: Image.asset('assets/baby-monitor.png'),
+                      label: 'Bayi',
                     ),
-                    children: [
-                      GridMenuItem(
-                        onTap: () {
-                          context.read<BayiCubit>().getBayi();
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const BabyScreen(),
-                            ),
-                          );
-                        },
-                        image: Image.asset('assets/baby-monitor.png'),
-                        label: 'Bayi',
-                      ),
-                      GridMenuItem(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const NutrisiHarianScreen(),
-                            ),
-                          );
-                        },
-                        image: Image.asset('assets/food.png'),
-                        label: 'Nutrisi Harian',
-                      ),
-                      GridMenuItem(
-                        onTap: () {},
-                        image: Image.asset('assets/pregnancy.png'),
-                        label: 'Obstetri',
-                      ),
-                      GridMenuItem(
-                        onTap: () {
-                          context.read<BayiCubit>().getBayi();
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const LaktasiScreen(),
-                            ),
-                          );
-                        },
-                        image: Image.asset('assets/bottle.png'),
-                        label: 'Monitor Laktasi',
-                      ),
-                    ],
-                  )
-                else
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      HorizontalMenuItem(
-                        onTap: () {
-                          context.read<BayiCubit>().getBayi();
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const BabyScreen(),
-                            ),
-                          );
-                        },
-                        image: Image.asset('assets/baby-monitor.png'),
-                        label: 'Data Bayi',
-                        deskripsi:
-                            'Kelola data profil tentang bayi Anda dengan mudah',
-                      ),
-                      HorizontalMenuItem(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const NutrisiHarianScreen(),
-                            ),
-                          );
-                        },
-                        image: Image.asset('assets/food.png'),
-                        label: 'Nutrisi Harian',
-                        deskripsi:
-                            'Lacak dan rencanakan asupan nutrisi harian.',
-                      ),
-                      HorizontalMenuItem(
-                        onTap: () {},
-                        image: Image.asset('assets/pregnancy.png'),
-                        label: 'Obstetri',
-                        deskripsi: 'Panduan seputar kehamilan dan persalinan.',
-                      ),
-                      HorizontalMenuItem(
-                        onTap: () {
-                          context.read<BayiCubit>().getBayi();
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const LaktasiScreen(),
-                            ),
-                          );
-                        },
-                        image: Image.asset('assets/bottle.png'),
-                        label: 'Monitor Laktasi',
-                        deskripsi:
-                            'Catat dan pantau jadwal serta durasi menyusui.',
-                      ),
-                      const SizedBox(
-                        height: 50,
-                      ),
-                    ],
-                  )
-              ],
-            ),
+                    GridMenuItem(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const NutrisiHarianScreen(),
+                          ),
+                        );
+                      },
+                      image: Image.asset('assets/food.png'),
+                      label: 'Nutrisi Harian',
+                    ),
+                    GridMenuItem(
+                      onTap: () {},
+                      image: Image.asset('assets/pregnancy.png'),
+                      label: 'Obstetri',
+                    ),
+                    GridMenuItem(
+                      onTap: () {
+                        context.read<BayiCubit>().getBayi();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const LaktasiScreen(),
+                          ),
+                        );
+                      },
+                      image: Image.asset('assets/bottle.png'),
+                      label: 'Monitor Laktasi',
+                    ),
+                  ],
+                )
+              else
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    HorizontalMenuItem(
+                      onTap: () {
+                        context.read<BayiCubit>().getBayi();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const BabyScreen(),
+                          ),
+                        );
+                      },
+                      image: Image.asset('assets/baby-monitor.png'),
+                      label: 'Data Bayi',
+                      deskripsi:
+                          'Kelola data profil tentang bayi Anda dengan mudah',
+                    ),
+                    HorizontalMenuItem(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const NutrisiHarianScreen(),
+                          ),
+                        );
+                      },
+                      image: Image.asset('assets/food.png'),
+                      label: 'Nutrisi Harian',
+                      deskripsi: 'Lacak dan rencanakan asupan nutrisi harian.',
+                    ),
+                    HorizontalMenuItem(
+                      onTap: () {},
+                      image: Image.asset('assets/pregnancy.png'),
+                      label: 'Obstetri',
+                      deskripsi: 'Panduan seputar kehamilan dan persalinan.',
+                    ),
+                    HorizontalMenuItem(
+                      onTap: () {
+                        context.read<BayiCubit>().getBayi();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const LaktasiScreen(),
+                          ),
+                        );
+                      },
+                      image: Image.asset('assets/bottle.png'),
+                      label: 'Monitor Laktasi',
+                      deskripsi:
+                          'Catat dan pantau jadwal serta durasi menyusui.',
+                    ),
+                    const SizedBox(
+                      height: 50,
+                    ),
+                  ],
+                )
+            ],
           ),
         ),
       ),

@@ -12,8 +12,8 @@ class Makanan {
   factory Makanan.fromJson(Map<String, dynamic> json) {
     return Makanan(
       nama: json['nama'],
-      kalori: json['kalori'],
-      porsi: json['posi'],
+      kalori: double.parse(json['kalori'].toString()),
+      porsi: double.parse(json['porsi'].toString()),
     );
   }
 }

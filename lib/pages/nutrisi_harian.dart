@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:mommy_be/cubit/makanan_cubit.dart';
 import 'package:mommy_be/pages/makanan.dart';
 import 'package:mommy_be/shared/widgets/page_title.dart';
 
@@ -37,6 +39,8 @@ class _NutrisiHarianScreenState extends State<NutrisiHarianScreen>
                   Expanded(child: PageTitle(title: "Nutrisi Harian")),
                   FilledButton(
                     onPressed: () {
+                      context.read<MakananCubit>().getMakanan();
+
                       Navigator.push(
                         context,
                         MaterialPageRoute(

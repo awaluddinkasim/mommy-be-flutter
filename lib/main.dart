@@ -5,8 +5,8 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:mommy_be/cubit/auth_cubit.dart';
 import 'package:mommy_be/cubit/bayi_cubit.dart';
 import 'package:mommy_be/cubit/laktasi_cubit.dart';
+import 'package:mommy_be/cubit/makanan_cubit.dart';
 import 'package:mommy_be/loading.dart';
-import 'package:mommy_be/pages/home.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,6 +27,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => AuthCubit()),
         BlocProvider(create: (context) => BayiCubit()),
         BlocProvider(create: (context) => LaktasiCubit()),
+        BlocProvider(create: (context) => MakananCubit()),
       ],
       child: MaterialApp(
         title: 'Mommy Be',
