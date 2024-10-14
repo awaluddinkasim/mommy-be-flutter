@@ -17,7 +17,6 @@ class MakananCubit extends Cubit<MakananState> {
       final makanan = await _makananService.getMakanan(token!);
       emit(MakananSuccess(makanan));
     } catch (e) {
-      print(e);
       emit(MakananFailed(e.toString()));
     }
   }

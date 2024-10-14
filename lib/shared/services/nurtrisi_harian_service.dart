@@ -4,7 +4,9 @@ import 'package:mommy_be/shared/dio.dart';
 
 class NurtrisiHarianService {
   Future<List<NutrisiHarian>> getNutrisiHarian(
-      String token, DateTime tanggal) async {
+    String token,
+    DateTime tanggal,
+  ) async {
     final response = await Request.get(
         '/nutrisi-harian?tanggal=${DateFormat('yyyy-MM-dd').format(tanggal)}',
         headers: {
