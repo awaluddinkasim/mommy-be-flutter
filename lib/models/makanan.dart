@@ -1,5 +1,5 @@
 class Makanan {
-  final String id;
+  final int id;
   final String nama;
   final double kalori;
   final double porsi;

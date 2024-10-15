@@ -73,6 +73,8 @@ class _LaktasiRiwayatScreenState extends State<LaktasiRiwayatScreen> {
                               ),
                               IconButton(
                                 onPressed: () {
+                                  final riwayat = context.read<LaktasiCubit>();
+
                                   showDatePicker(
                                     context: context,
                                     initialDate: _tanggal,
@@ -80,12 +82,11 @@ class _LaktasiRiwayatScreenState extends State<LaktasiRiwayatScreen> {
                                     lastDate: DateTime.now(),
                                   ).then((value) {
                                     if (value != null) {
-                                      context
-                                          .read<LaktasiCubit>()
-                                          .getLaktasi(widget.baby.id, value);
                                       setState(() {
                                         _tanggal = value;
                                       });
+                                      
+                                      riwayat.getLaktasi(widget.baby.id, _tanggal);
                                     }
                                   });
                                 },

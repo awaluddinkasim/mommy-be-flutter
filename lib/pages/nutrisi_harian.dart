@@ -3,8 +3,11 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:mommy_be/cubit/makanan_cubit.dart';
+import 'package:mommy_be/cubit/nutrisi_harian_cubit.dart';
+import 'package:mommy_be/cubit/nutrisi_harian_state.dart';
 import 'package:mommy_be/pages/makanan.dart';
 import 'package:mommy_be/shared/widgets/page_title.dart';
+import 'package:mommy_be/shared/widgets/retry_button.dart';
 
 class NutrisiHarianScreen extends StatefulWidget {
   const NutrisiHarianScreen({super.key});
@@ -23,6 +26,9 @@ class _NutrisiHarianScreenState extends State<NutrisiHarianScreen>
   void initState() {
     super.initState();
     tabController = TabController(length: 5, vsync: this);
+    Future.delayed(Duration.zero, () {
+      context.read<NutrisiHarianCubit>().getNutrisiHarian(_tanggal);
+    });
   }
 
   @override
@@ -33,10 +39,10 @@ class _NutrisiHarianScreenState extends State<NutrisiHarianScreen>
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Padding(
-              padding: EdgeInsets.all(24.0),
+              padding: const EdgeInsets.all(24.0),
               child: Row(
                 children: [
-                  Expanded(child: PageTitle(title: "Nutrisi Harian")),
+                  const Expanded(child: PageTitle(title: "Nutrisi Harian")),
                   FilledButton(
                     onPressed: () {
                       context.read<MakananCubit>().getMakanan();
@@ -44,7 +50,7 @@ class _NutrisiHarianScreenState extends State<NutrisiHarianScreen>
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => MakananScreen(),
+                          builder: (context) => const MakananScreen(),
                         ),
                       );
                     },
@@ -87,6 +93,8 @@ class _NutrisiHarianScreenState extends State<NutrisiHarianScreen>
                           ),
                           IconButton(
                             onPressed: () {
+                              final cubit = context.read<NutrisiHarianCubit>();
+
                               showDatePicker(
                                 context: context,
                                 initialDate: _tanggal,
@@ -97,6 +105,8 @@ class _NutrisiHarianScreenState extends State<NutrisiHarianScreen>
                                   setState(() {
                                     _tanggal = value;
                                   });
+
+                                  cubit.getNutrisiHarian(_tanggal);
                                 }
                               });
                             },
@@ -134,113 +144,247 @@ class _NutrisiHarianScreenState extends State<NutrisiHarianScreen>
               dividerColor: Colors.black45,
             ),
             Expanded(
-              child: TabBarView(
-                controller: tabController,
-                children: const [
-                  Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
+              child: BlocBuilder<NutrisiHarianCubit, NutrisiHarianState>(
+                builder: (context, state) {
+                  if (state is NutrisiHarianLoading) {
+                    return const Center(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: 36),
+                        child: CircularProgressIndicator(),
+                      ),
+                    );
+                  }
+
+                  if (state is NutrisiHarianSuccess) {
+                    return TabBarView(
+                      controller: tabController,
                       children: [
-                        Card(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                              vertical: 16,
-                              horizontal: 12,
-                            ),
-                            child: Column(
-                              children: [
-                                ListTile(
-                                  leading: Icon(Icons.fastfood),
-                                  title: Text("Nasi Kuning"),
-                                  subtitle: Text("1 porsi - 400 kcal"),
-                                ),
-                                ListTile(
-                                  leading: Icon(Icons.fastfood),
-                                  title: Text("Milo"),
-                                  subtitle: Text("1.75 porsi - 200 kcal"),
-                                ),
-                              ],
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Card(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                              vertical: 16,
-                              horizontal: 12,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Card(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                              vertical: 16,
-                              horizontal: 12,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Card(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                              vertical: 16,
-                              horizontal: 12,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Card(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                              vertical: 16,
-                              horizontal: 12,
-                            ),
-                            child: Column(
-                              children: [
-                                ListTile(
-                                  leading: Icon(Icons.fastfood),
-                                  title: Text("Jagung Bakar"),
-                                  subtitle: Text("1.25 porsi - 125 kcal"),
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              if (state.nutrisiHarian
+                                  .where(
+                                    (element) => element.sesi == 'Sarapan',
+                                  )
+                                  .isNotEmpty)
+                                Card(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 16,
+                                      horizontal: 12,
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        for (var nutrisiHarian
+                                            in state.nutrisiHarian.where(
+                                          (element) =>
+                                              element.sesi == 'Sarapan',
+                                        ))
+                                          ListTile(
+                                            leading: const Icon(Icons.fastfood),
+                                            title: Text(
+                                                nutrisiHarian.makanan.nama),
+                                            subtitle: Text(
+                                                "Porsi ${nutrisiHarian.makanan.porsi} - ${nutrisiHarian.makanan.kalori} kcal"),
+                                          ),
+                                      ],
+                                    ),
+                                  ),
                                 )
-                              ],
-                            ),
+                              else
+                                const Text(
+                                  "Tidak ada data",
+                                  textAlign: TextAlign.center,
+                                ),
+                            ],
                           ),
-                        )
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              if (state.nutrisiHarian
+                                  .where(
+                                    (element) => element.sesi == 'Snack 1',
+                                  )
+                                  .isNotEmpty)
+                                Card(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 16,
+                                      horizontal: 12,
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        for (var nutrisiHarian
+                                            in state.nutrisiHarian.where(
+                                          (element) =>
+                                              element.sesi == 'Snack 1',
+                                        ))
+                                          ListTile(
+                                            leading: const Icon(Icons.fastfood),
+                                            title: Text(
+                                                nutrisiHarian.makanan.nama),
+                                            subtitle: Text(
+                                                "Porsi ${nutrisiHarian.makanan.porsi} - ${nutrisiHarian.makanan.kalori} kcal"),
+                                          ),
+                                      ],
+                                    ),
+                                  ),
+                                )
+                              else
+                                const Text(
+                                  "Tidak ada data",
+                                  textAlign: TextAlign.center,
+                                ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              if (state.nutrisiHarian
+                                  .where(
+                                    (element) => element.sesi == 'Makan Siang',
+                                  )
+                                  .isNotEmpty)
+                                Card(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 16,
+                                      horizontal: 12,
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        for (var nutrisiHarian
+                                            in state.nutrisiHarian.where(
+                                          (element) =>
+                                              element.sesi == 'Makan Siang',
+                                        ))
+                                          ListTile(
+                                            leading: const Icon(Icons.fastfood),
+                                            title: Text(
+                                                nutrisiHarian.makanan.nama),
+                                            subtitle: Text(
+                                                "Porsi ${nutrisiHarian.makanan.porsi} - ${nutrisiHarian.makanan.kalori} kcal"),
+                                          ),
+                                      ],
+                                    ),
+                                  ),
+                                )
+                              else
+                                const Text(
+                                  "Tidak ada data",
+                                  textAlign: TextAlign.center,
+                                ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              if (state.nutrisiHarian
+                                  .where(
+                                    (element) => element.sesi == 'Snack 2',
+                                  )
+                                  .isNotEmpty)
+                                Card(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 16,
+                                      horizontal: 12,
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        for (var nutrisiHarian
+                                            in state.nutrisiHarian.where(
+                                          (element) =>
+                                              element.sesi == 'Snack 2',
+                                        ))
+                                          ListTile(
+                                            leading: const Icon(Icons.fastfood),
+                                            title: Text(
+                                                nutrisiHarian.makanan.nama),
+                                            subtitle: Text(
+                                                "Porsi ${nutrisiHarian.makanan.porsi} - ${nutrisiHarian.makanan.kalori} kcal"),
+                                          ),
+                                      ],
+                                    ),
+                                  ),
+                                )
+                              else
+                                const Text(
+                                  "Tidak ada data",
+                                  textAlign: TextAlign.center,
+                                ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              if (state.nutrisiHarian
+                                  .where(
+                                    (element) => element.sesi == 'Makan Malam',
+                                  )
+                                  .isNotEmpty)
+                                Card(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 16,
+                                      horizontal: 12,
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        for (var nutrisiHarian
+                                            in state.nutrisiHarian.where(
+                                          (element) =>
+                                              element.sesi == 'Makan Malam',
+                                        ))
+                                          ListTile(
+                                            leading: const Icon(Icons.fastfood),
+                                            title: Text(
+                                                nutrisiHarian.makanan.nama),
+                                            subtitle: Text(
+                                                "Porsi ${nutrisiHarian.makanan.porsi} - ${nutrisiHarian.makanan.kalori} kcal"),
+                                          ),
+                                      ],
+                                    ),
+                                  ),
+                                )
+                              else
+                                const Text(
+                                  "Tidak ada data",
+                                  textAlign: TextAlign.center,
+                                ),
+                            ],
+                          ),
+                        ),
                       ],
+                    );
+                  }
+
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 24),
+                    child: RetryButton(
+                      message: (state is NutrisiHarianFailed)
+                          ? state.message
+                          : "Terjadi kesalahan",
+                      onPressed: () => context
+                          .read<NutrisiHarianCubit>()
+                          .getNutrisiHarian(_tanggal),
                     ),
-                  ),
-                ],
+                  );
+                },
               ),
             ),
           ],
