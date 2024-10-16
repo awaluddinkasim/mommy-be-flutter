@@ -1,4 +1,5 @@
 class Obstetri {
+  final int id;
   final int kehamilan;
   final int persalinan;
   final int riwayatAbortus;
@@ -7,6 +8,7 @@ class Obstetri {
   final String resiko;
 
   Obstetri({
+    required this.id,
     required this.kehamilan,
     required this.persalinan,
     required this.riwayatAbortus,
@@ -17,6 +19,7 @@ class Obstetri {
 
   factory Obstetri.fromJson(Map<String, dynamic> json) {
     return Obstetri(
+      id: json['id'],
       kehamilan: json['kehamilan'],
       persalinan: json['persalinan'],
       riwayatAbortus: json['riwayat_abortus'],

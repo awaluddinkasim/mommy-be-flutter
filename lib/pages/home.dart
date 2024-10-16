@@ -3,11 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mommy_be/cubit/auth_cubit.dart';
 import 'package:mommy_be/cubit/auth_state.dart';
 import 'package:mommy_be/cubit/bayi_cubit.dart';
+import 'package:mommy_be/cubit/obstetri_cubit.dart';
 import 'package:mommy_be/models/nutrisi_harian.dart';
 import 'package:mommy_be/pages/auth/login.dart';
 import 'package:mommy_be/pages/baby.dart';
 import 'package:mommy_be/pages/laktasi.dart';
 import 'package:mommy_be/pages/nutrisi_harian.dart';
+import 'package:mommy_be/pages/obstetri.dart';
 import 'package:mommy_be/shared/widgets/dialog/loading.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -120,7 +122,15 @@ class _HomeScreenState extends State<HomeScreen> {
                       label: 'Nutrisi Harian',
                     ),
                     GridMenuItem(
-                      onTap: () {},
+                      onTap: () {
+                        context.read<ObstetriCubit>().getObstetri();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ObstetriScreen(),
+                          ),
+                        );
+                      },
                       image: Image.asset('assets/pregnancy.png'),
                       label: 'Obstetri',
                     ),
@@ -172,7 +182,15 @@ class _HomeScreenState extends State<HomeScreen> {
                       deskripsi: 'Lacak dan rencanakan asupan nutrisi harian.',
                     ),
                     HorizontalMenuItem(
-                      onTap: () {},
+                      onTap: () {
+                        context.read<ObstetriCubit>().getObstetri();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ObstetriScreen(),
+                          ),
+                        );
+                      },
                       image: Image.asset('assets/pregnancy.png'),
                       label: 'Obstetri',
                       deskripsi: 'Panduan seputar kehamilan dan persalinan.',
