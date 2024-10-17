@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
@@ -26,8 +25,9 @@ class _NutrisiHarianScreenState extends State<NutrisiHarianScreen> with SingleTi
   void initState() {
     super.initState();
     tabController = TabController(length: 5, vsync: this);
+    final nutrisiHarian = context.read<NutrisiHarianCubit>();
     Future.delayed(Duration.zero, () {
-      context.read<NutrisiHarianCubit>().getNutrisiHarian(_tanggal);
+      nutrisiHarian.getNutrisiHarian(_tanggal);
     });
   }
 

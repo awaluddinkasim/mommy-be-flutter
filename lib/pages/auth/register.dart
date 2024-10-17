@@ -183,12 +183,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     if (_formKey.currentState!.validate()) {
                       showDialog(
                         context: context,
-                        builder: (context) => LoadingDialog(),
+                        builder: (context) => const LoadingDialog(),
                       );
                       _submit();
                     }
                   },
-                  child: Text("Daftar"),
+                  child: const Text("Daftar"),
                 ),
               ],
             ),

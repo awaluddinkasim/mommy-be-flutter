@@ -8,7 +8,6 @@ class LoadingDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      onPopInvoked: (didPop) => false,
       child: Dialog(
         child: Column(
           mainAxisSize: MainAxisSize.min,

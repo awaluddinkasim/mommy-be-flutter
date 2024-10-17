@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mommy_be/cubit/laktasi_cubit.dart';
-import 'package:mommy_be/cubit/laktasi_state.dart';
 import 'package:mommy_be/data/laktasi.dart';
 import 'package:mommy_be/models/bayi.dart';
 import 'package:mommy_be/pages/laktasi_riwayat.dart';
-import 'package:mommy_be/shared/widgets/dialog/loading.dart';
 import 'package:mommy_be/shared/widgets/page_title.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 
@@ -31,6 +29,8 @@ class _MonitorLaktasiScreenState extends State<MonitorLaktasiScreen> {
   }
 
   void _submit(int duration) async {
+    final navigator = Navigator.of(context);
+
     context
         .read<LaktasiCubit>()
         .postLaktasi(
@@ -43,8 +43,7 @@ class _MonitorLaktasiScreenState extends State<MonitorLaktasiScreen> {
         )
         .then(
       (_) {
-        Navigator.pushReplacement(
-          context,
+        navigator.pushReplacement(
           MaterialPageRoute(
             builder: (context) => LaktasiRiwayatScreen(
               baby: widget.baby,

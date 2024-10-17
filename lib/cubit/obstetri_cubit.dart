@@ -44,7 +44,6 @@ class ObstetriCubit extends Cubit<ObstetriState> {
       final obstetri = await _obstetriService.postObstetri(token!, data);
       emit(ObstetriSuccess(obstetri));
     } catch (e) {
-      print(e);
       emit(ObstetriFailed(e.toString()));
     }
   }

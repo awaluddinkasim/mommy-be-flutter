@@ -114,13 +114,13 @@ class _LoginScreenState extends State<LoginScreen> {
                           _password.text,
                         );
                   },
-                  child: Text("L O G I N"),
+                  child: const Text("L O G I N"),
                 ),
               ),
               const SizedBox(height: 16),
               Column(
                 children: [
-                  Text(
+                  const Text(
                     "Belum punya akun?",
                   ),
                   TextButton(
@@ -128,11 +128,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => RegisterScreen(),
+                          builder: (context) => const RegisterScreen(),
                         ),
                       );
                     },
-                    child: Text("Daftar Disini"),
+                    child: const Text("Daftar Disini"),
                   ),
                 ],
               ),

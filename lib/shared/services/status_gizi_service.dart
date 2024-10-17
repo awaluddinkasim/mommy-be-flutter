@@ -15,7 +15,6 @@ class StatusGiziService {
   }
 
   Future<StatusGizi> postStatusGizi(String token, Obstetri obstetri, DataStatusGizi data) async {
-    print('/status-gizi/${obstetri.id}');
     final response = await Request.post(
       '/status-gizi/${obstetri.id}',
       data: data.toJson(),

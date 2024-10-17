@@ -37,7 +37,6 @@ class NutrisiHarianCubit extends Cubit<NutrisiHarianState> {
           await _nurtrisiHarianService.postNutrisiHarian(token!, data);
       emit(NutrisiHarianSuccess(nutrisiHarian));
     } catch (e) {
-      print(e);
       emit(NutrisiHarianFailed(e.toString()));
     }
   }

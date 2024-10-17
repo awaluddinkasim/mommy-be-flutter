@@ -19,7 +19,6 @@ class StatusGiziCubit extends Cubit<StatusGiziState> {
       final statusGizi = await _statusGiziService.getStatusGizi(token!, obstetri);
       emit(StatusGiziSuccess(statusGizi));
     } catch (e) {
-      print(e);
       emit(StatusGiziFailed(e.toString()));
     }
   }
@@ -33,7 +32,6 @@ class StatusGiziCubit extends Cubit<StatusGiziState> {
       final statusGizi = await _statusGiziService.postStatusGizi(token!, obstetri, data);
       emit(StatusGiziSuccess(statusGizi));
     } catch (e) {
-      print(e);
       emit(StatusGiziFailed(e.toString()));
     }
   }

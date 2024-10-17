@@ -22,8 +22,9 @@ class _LaktasiRiwayatScreenState extends State<LaktasiRiwayatScreen> {
   @override
   void initState() {
     super.initState();
+    final laktasi = context.read<LaktasiCubit>();
     Future.delayed(Duration.zero, () {
-      context.read<LaktasiCubit>().getLaktasi(widget.baby.id, _tanggal);
+      laktasi.getLaktasi(widget.baby.id, _tanggal);
     });
   }
 
