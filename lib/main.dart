@@ -8,6 +8,7 @@ import 'package:mommy_be/cubit/laktasi_cubit.dart';
 import 'package:mommy_be/cubit/makanan_cubit.dart';
 import 'package:mommy_be/cubit/nutrisi_harian_cubit.dart';
 import 'package:mommy_be/cubit/obstetri_cubit.dart';
+import 'package:mommy_be/cubit/status_gizi_cubit.dart';
 import 'package:mommy_be/loading.dart';
 
 void main() async {
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => MakananCubit()),
         BlocProvider(create: (context) => NutrisiHarianCubit()),
         BlocProvider(create: (context) => ObstetriCubit()),
+        BlocProvider(create: (context) => StatusGiziCubit()),
       ],
       child: MaterialApp(
         title: 'Mommy Be',

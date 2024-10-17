@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:mommy_be/cubit/makanan_cubit.dart';
 import 'package:mommy_be/cubit/nutrisi_harian_cubit.dart';
@@ -16,8 +17,7 @@ class NutrisiHarianScreen extends StatefulWidget {
   State<NutrisiHarianScreen> createState() => _NutrisiHarianScreenState();
 }
 
-class _NutrisiHarianScreenState extends State<NutrisiHarianScreen>
-    with SingleTickerProviderStateMixin {
+class _NutrisiHarianScreenState extends State<NutrisiHarianScreen> with SingleTickerProviderStateMixin {
   late TabController tabController;
 
   DateTime _tanggal = DateTime.now();
@@ -63,6 +63,53 @@ class _NutrisiHarianScreenState extends State<NutrisiHarianScreen>
                 ],
               ),
             ),
+            SvgPicture.asset(
+              'assets/svg/nutrisi.svg',
+              height: 250,
+            ),
+            const Text(
+              'Total kalori hari ini',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 16),
+            ),
+            const SizedBox(height: 8),
+            BlocBuilder<NutrisiHarianCubit, NutrisiHarianState>(
+              builder: (context, state) {
+                if (state is NutrisiHarianLoading) {
+                  return const Center(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 14),
+                      child: SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: CircularProgressIndicator(),
+                      ),
+                    ),
+                  );
+                }
+
+                if (state is NutrisiHarianSuccess) {
+                  return Text(
+                    "${context.read<NutrisiHarianCubit>().totalKalori} kkal",
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: 36,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  );
+                }
+
+                return const Text(
+                  '0 kkal',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 36,
+                    fontWeight: FontWeight.bold,
+                  ),
+                );
+              },
+            ),
+            const SizedBox(height: 24),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Card(
@@ -177,17 +224,13 @@ class _NutrisiHarianScreenState extends State<NutrisiHarianScreen>
                                     ),
                                     child: Column(
                                       children: [
-                                        for (var nutrisiHarian
-                                            in state.nutrisiHarian.where(
-                                          (element) =>
-                                              element.sesi == 'Sarapan',
+                                        for (var nutrisiHarian in state.nutrisiHarian.where(
+                                          (element) => element.sesi == 'Sarapan',
                                         ))
                                           ListTile(
                                             leading: const Icon(Icons.fastfood),
-                                            title: Text(
-                                                nutrisiHarian.makanan.nama),
-                                            subtitle: Text(
-                                                "Porsi ${nutrisiHarian.makanan.porsi} - ${nutrisiHarian.makanan.kalori} kcal"),
+                                            title: Text(nutrisiHarian.makanan.nama),
+                                            subtitle: Text("Porsi ${nutrisiHarian.makanan.porsi} - ${nutrisiHarian.makanan.kalori} kkal"),
                                           ),
                                       ],
                                     ),
@@ -219,17 +262,13 @@ class _NutrisiHarianScreenState extends State<NutrisiHarianScreen>
                                     ),
                                     child: Column(
                                       children: [
-                                        for (var nutrisiHarian
-                                            in state.nutrisiHarian.where(
-                                          (element) =>
-                                              element.sesi == 'Snack 1',
+                                        for (var nutrisiHarian in state.nutrisiHarian.where(
+                                          (element) => element.sesi == 'Snack 1',
                                         ))
                                           ListTile(
                                             leading: const Icon(Icons.fastfood),
-                                            title: Text(
-                                                nutrisiHarian.makanan.nama),
-                                            subtitle: Text(
-                                                "Porsi ${nutrisiHarian.makanan.porsi} - ${nutrisiHarian.makanan.kalori} kcal"),
+                                            title: Text(nutrisiHarian.makanan.nama),
+                                            subtitle: Text("Porsi ${nutrisiHarian.makanan.porsi} - ${nutrisiHarian.makanan.kalori} kkal"),
                                           ),
                                       ],
                                     ),
@@ -261,17 +300,13 @@ class _NutrisiHarianScreenState extends State<NutrisiHarianScreen>
                                     ),
                                     child: Column(
                                       children: [
-                                        for (var nutrisiHarian
-                                            in state.nutrisiHarian.where(
-                                          (element) =>
-                                              element.sesi == 'Makan Siang',
+                                        for (var nutrisiHarian in state.nutrisiHarian.where(
+                                          (element) => element.sesi == 'Makan Siang',
                                         ))
                                           ListTile(
                                             leading: const Icon(Icons.fastfood),
-                                            title: Text(
-                                                nutrisiHarian.makanan.nama),
-                                            subtitle: Text(
-                                                "Porsi ${nutrisiHarian.makanan.porsi} - ${nutrisiHarian.makanan.kalori} kcal"),
+                                            title: Text(nutrisiHarian.makanan.nama),
+                                            subtitle: Text("Porsi ${nutrisiHarian.makanan.porsi} - ${nutrisiHarian.makanan.kalori} kkal"),
                                           ),
                                       ],
                                     ),
@@ -303,17 +338,13 @@ class _NutrisiHarianScreenState extends State<NutrisiHarianScreen>
                                     ),
                                     child: Column(
                                       children: [
-                                        for (var nutrisiHarian
-                                            in state.nutrisiHarian.where(
-                                          (element) =>
-                                              element.sesi == 'Snack 2',
+                                        for (var nutrisiHarian in state.nutrisiHarian.where(
+                                          (element) => element.sesi == 'Snack 2',
                                         ))
                                           ListTile(
                                             leading: const Icon(Icons.fastfood),
-                                            title: Text(
-                                                nutrisiHarian.makanan.nama),
-                                            subtitle: Text(
-                                                "Porsi ${nutrisiHarian.makanan.porsi} - ${nutrisiHarian.makanan.kalori} kcal"),
+                                            title: Text(nutrisiHarian.makanan.nama),
+                                            subtitle: Text("Porsi ${nutrisiHarian.makanan.porsi} - ${nutrisiHarian.makanan.kalori} kkal"),
                                           ),
                                       ],
                                     ),
@@ -345,17 +376,13 @@ class _NutrisiHarianScreenState extends State<NutrisiHarianScreen>
                                     ),
                                     child: Column(
                                       children: [
-                                        for (var nutrisiHarian
-                                            in state.nutrisiHarian.where(
-                                          (element) =>
-                                              element.sesi == 'Makan Malam',
+                                        for (var nutrisiHarian in state.nutrisiHarian.where(
+                                          (element) => element.sesi == 'Makan Malam',
                                         ))
                                           ListTile(
                                             leading: const Icon(Icons.fastfood),
-                                            title: Text(
-                                                nutrisiHarian.makanan.nama),
-                                            subtitle: Text(
-                                                "Porsi ${nutrisiHarian.makanan.porsi} - ${nutrisiHarian.makanan.kalori} kcal"),
+                                            title: Text(nutrisiHarian.makanan.nama),
+                                            subtitle: Text("Porsi ${nutrisiHarian.makanan.porsi} - ${nutrisiHarian.makanan.kalori} kkal"),
                                           ),
                                       ],
                                     ),
@@ -376,12 +403,8 @@ class _NutrisiHarianScreenState extends State<NutrisiHarianScreen>
                   return Padding(
                     padding: const EdgeInsets.symmetric(vertical: 24),
                     child: RetryButton(
-                      message: (state is NutrisiHarianFailed)
-                          ? state.message
-                          : "Terjadi kesalahan",
-                      onPressed: () => context
-                          .read<NutrisiHarianCubit>()
-                          .getNutrisiHarian(_tanggal),
+                      message: (state is NutrisiHarianFailed) ? state.message : "Terjadi kesalahan",
+                      onPressed: () => context.read<NutrisiHarianCubit>().getNutrisiHarian(_tanggal),
                     ),
                   );
                 },

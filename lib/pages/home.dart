@@ -10,6 +10,7 @@ import 'package:mommy_be/pages/baby.dart';
 import 'package:mommy_be/pages/laktasi.dart';
 import 'package:mommy_be/pages/nutrisi_harian.dart';
 import 'package:mommy_be/pages/obstetri.dart';
+import 'package:mommy_be/pages/user.dart';
 import 'package:mommy_be/shared/widgets/dialog/loading.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -31,47 +32,57 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              BlocListener<AuthCubit, AuthState>(
-                listener: (context, state) {
-                  if (state is AuthLoading) {
-                    showDialog(
-                      context: context,
-                      barrierDismissible: false,
-                      builder: (context) => const LoadingDialog(),
-                    );
-                  }
-                  if (state is AuthInitial) {
-                    Navigator.pop(context);
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const LoginScreen()),
-                      (route) => false,
-                    );
-                  }
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      'Welcome',
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Expanded(
+                    child: Text(
+                      'Selamat Datang',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
                       ),
                     ),
-                    FilledButton.icon(
-                      onPressed: () {
-                        context.read<AuthCubit>().logout();
+                  ),
+                  Material(
+                    color: Colors.transparent,
+                    borderRadius: BorderRadius.circular(16),
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const UserScreen(),
+                          ),
+                        );
                       },
-                      icon: const Icon(Icons.exit_to_app),
-                      label: const Text("Logout"),
-                      style: const ButtonStyle(
-                        visualDensity: VisualDensity.compact,
+                      borderRadius: BorderRadius.circular(16),
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16),
+                          color: Theme.of(context).primaryColor.withOpacity(0.2),
+                        ),
+                        child: Row(
+                          children: [
+                            const CircleAvatar(
+                              radius: 16,
+                              child: Icon(Icons.person),
+                            ),
+                            const SizedBox(width: 12),
+                            SizedBox(
+                              width: 70,
+                              child: Text(
+                                user.nama,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ],
-                ),
+                  )
+                ],
               ),
               const SizedBox(height: 28),
               Image.asset('assets/main.png'),
@@ -96,7 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     childAspectRatio: 7 / 8,
                   ),
                   children: [
-                    GridMenuItem(
+                    _GridMenuItem(
                       onTap: () {
                         context.read<BayiCubit>().getBayi();
                         Navigator.push(
@@ -109,7 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       image: Image.asset('assets/baby-monitor.png'),
                       label: 'Bayi',
                     ),
-                    GridMenuItem(
+                    _GridMenuItem(
                       onTap: () {
                         Navigator.push(
                           context,
@@ -121,7 +132,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       image: Image.asset('assets/food.png'),
                       label: 'Nutrisi Harian',
                     ),
-                    GridMenuItem(
+                    _GridMenuItem(
                       onTap: () {
                         context.read<ObstetriCubit>().getObstetri();
                         Navigator.push(
@@ -134,7 +145,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       image: Image.asset('assets/pregnancy.png'),
                       label: 'Obstetri',
                     ),
-                    GridMenuItem(
+                    _GridMenuItem(
                       onTap: () {
                         context.read<BayiCubit>().getBayi();
                         Navigator.push(
@@ -153,7 +164,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    HorizontalMenuItem(
+                    _HorizontalMenuItem(
                       onTap: () {
                         context.read<BayiCubit>().getBayi();
                         Navigator.push(
@@ -165,10 +176,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       },
                       image: Image.asset('assets/baby-monitor.png'),
                       label: 'Data Bayi',
-                      deskripsi:
-                          'Kelola data profil tentang bayi Anda dengan mudah',
+                      deskripsi: 'Kelola data profil tentang bayi Anda dengan mudah',
                     ),
-                    HorizontalMenuItem(
+                    _HorizontalMenuItem(
                       onTap: () {
                         Navigator.push(
                           context,
@@ -181,7 +191,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       label: 'Nutrisi Harian',
                       deskripsi: 'Lacak dan rencanakan asupan nutrisi harian.',
                     ),
-                    HorizontalMenuItem(
+                    _HorizontalMenuItem(
                       onTap: () {
                         context.read<ObstetriCubit>().getObstetri();
                         Navigator.push(
@@ -195,7 +205,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       label: 'Obstetri',
                       deskripsi: 'Panduan seputar kehamilan dan persalinan.',
                     ),
-                    HorizontalMenuItem(
+                    _HorizontalMenuItem(
                       onTap: () {
                         context.read<BayiCubit>().getBayi();
                         Navigator.push(
@@ -207,8 +217,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       },
                       image: Image.asset('assets/bottle.png'),
                       label: 'Monitor Laktasi',
-                      deskripsi:
-                          'Catat dan pantau jadwal serta durasi menyusui.',
+                      deskripsi: 'Catat dan pantau jadwal serta durasi menyusui.',
                     ),
                     const SizedBox(
                       height: 50,
@@ -223,9 +232,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class HorizontalMenuItem extends StatelessWidget {
-  const HorizontalMenuItem({
-    super.key,
+class _HorizontalMenuItem extends StatelessWidget {
+  const _HorizontalMenuItem({
     required this.onTap,
     required this.image,
     required this.label,
@@ -257,9 +265,8 @@ class HorizontalMenuItem extends StatelessWidget {
   }
 }
 
-class GridMenuItem extends StatelessWidget {
-  const GridMenuItem({
-    super.key,
+class _GridMenuItem extends StatelessWidget {
+  const _GridMenuItem({
     required this.onTap,
     required this.image,
     required this.label,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mommy_be/cubit/obstetri_cubit.dart';
 import 'package:mommy_be/cubit/obstetri_state.dart';
 import 'package:mommy_be/data/obstetri.dart';
@@ -79,6 +80,11 @@ class _ObstetriCreateScreenState extends State<ObstetriCreateScreen> {
                   child: PageTitle(title: "Tambah Data"),
                 ),
                 const SizedBox(height: 16),
+                SvgPicture.asset(
+                  'assets/svg/pregnancy.svg',
+                  height: 300,
+                ),
+                const SizedBox(height: 24),
                 Form(
                   key: _formKey,
                   child: Column(
@@ -182,11 +188,9 @@ class _ObstetriCreateScreenState extends State<ObstetriCreateScreen> {
                                   DataObstetri(
                                     kehamilan: int.parse(_kehamilan.text),
                                     persalinan: int.parse(_persalinan.text),
-                                    riwayatAbortus:
-                                        int.parse(_riwayatAbortus.text),
+                                    riwayatAbortus: int.parse(_riwayatAbortus.text),
                                     metodePersalinan: _metodePersalinan!,
-                                    jarakKelahiran:
-                                        int.parse(_jarakKelahiran.text),
+                                    jarakKelahiran: int.parse(_jarakKelahiran.text),
                                   ),
                                 );
                           }

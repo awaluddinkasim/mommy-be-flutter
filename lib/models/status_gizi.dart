@@ -23,15 +23,15 @@ class StatusGizi {
 
   factory StatusGizi.fromJson(Map<String, dynamic> json) {
     return StatusGizi(
-      tinggiBadan: json['tinggi_badan'],
-      bbSebelumHamil: json['bb_sebelum_hamil'],
-      bbSaatHamil: json['bb_saat_hamil'],
-      bbSetelahMelahirkan: json['bb_setelah_melahirkan'],
-      aktifitasHarian: json['aktifitas_harian'],
-      imtPraHamil: json['imt_pra_hamil'],
-      imtPostHamil: json['imt_post_hamil'],
-      resistensiBB: json['resistensi_bb'],
-      kebutuhanKalori: json['kebutuhan_kalori'],
+      tinggiBadan: double.parse(json['tinggi_badan'].toString()),
+      bbSebelumHamil: double.parse(json['bb_sebelum_hamil'].toString()),
+      bbSaatHamil: double.parse(json['bb_saat_hamil'].toString()),
+      bbSetelahMelahirkan: double.parse(json['bb_setelah_melahirkan'].toString()),
+      aktifitasHarian: json['aktifitas_harian'].toString(),
+      imtPraHamil: double.parse(json['imt_pra_hamil'].toString()),
+      imtPostHamil: double.parse(json['imt_post_hamil'].toString()),
+      resistensiBB: double.parse(json['resistensi_bb'].toString()),
+      kebutuhanKalori: double.parse(json['kebutuhan_kalori'].toString()),
     );
   }
 }

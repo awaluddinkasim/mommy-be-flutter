@@ -4,34 +4,24 @@ import 'package:mommy_be/models/status_gizi.dart';
 import 'package:mommy_be/shared/dio.dart';
 
 class StatusGiziService {
-  Future<List<StatusGizi>> getStatusGizi(String token, Obstetri obstetri) async {
+  Future<StatusGizi?> getStatusGizi(String token, Obstetri obstetri) async {
     final response = await Request.get(
       '/status-gizi/${obstetri.id}',
       headers: {'Authorization': 'Bearer $token'},
     );
 
-    List<StatusGizi> statusGiziList = [];
-
-    for (var statusGizi in response['data']['statusGizi']) {
-      statusGiziList.add(StatusGizi.fromJson(statusGizi));
-    }
-
-    return statusGiziList;
+    if (response['data']['statusGizi'] == null) return null;
+    return StatusGizi.fromJson(response['data']['statusGizi']);
   }
 
-  Future<List<StatusGizi>> postStatusGizi(String token, Obstetri obstetri, DataStatusGizi data) async {
+  Future<StatusGizi> postStatusGizi(String token, Obstetri obstetri, DataStatusGizi data) async {
+    print('/status-gizi/${obstetri.id}');
     final response = await Request.post(
       '/status-gizi/${obstetri.id}',
       data: data.toJson(),
       headers: {'Authorization': 'Bearer $token'},
     );
 
-    List<StatusGizi> statusGiziList = [];
-
-    for (var statusGizi in response['data']['statusGizi']) {
-      statusGiziList.add(StatusGizi.fromJson(statusGizi));
-    }
-
-    return statusGiziList;
+    return StatusGizi.fromJson(response['data']['statusGizi']);
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mommy_be/cubit/makanan_cubit.dart';
 import 'package:mommy_be/cubit/makanan_state.dart';
 import 'package:mommy_be/cubit/nutrisi_harian_cubit.dart';
@@ -74,6 +75,11 @@ class _MakananScreenState extends State<MakananScreen> {
               children: [
                 const PageTitle(title: "Tambah Makanan"),
                 const SizedBox(height: 16),
+                SvgPicture.asset(
+                  'assets/svg/food.svg',
+                  height: 300,
+                ),
+                const SizedBox(height: 24),
                 Form(
                   key: _formKey,
                   child: Column(
@@ -158,33 +164,21 @@ class _MakananScreenState extends State<MakananScreen> {
                                 if (_selectedMakanan != null)
                                   Table(
                                     children: [
-                                      TableRow(children: [
-                                        const TableCell(child: Text("Makanan")),
-                                        TableCell(
-                                            child: Text(
-                                                ": ${_selectedMakanan!.nama}"))
-                                      ]),
+                                      TableRow(
+                                          children: [const TableCell(child: Text("Makanan")), TableCell(child: Text(": ${_selectedMakanan!.nama}"))]),
                                       TableRow(children: [
                                         const TableCell(child: Text("Kalori")),
-                                        TableCell(
-                                            child: Text(
-                                                ": ${_selectedMakanan!.kalori} kcal"))
+                                        TableCell(child: Text(": ${_selectedMakanan!.kalori} kcal"))
                                       ]),
-                                      TableRow(children: [
-                                        const TableCell(child: Text("Porsi")),
-                                        TableCell(
-                                            child: Text(
-                                                ": ${_selectedMakanan!.porsi}"))
-                                      ]),
+                                      TableRow(
+                                          children: [const TableCell(child: Text("Porsi")), TableCell(child: Text(": ${_selectedMakanan!.porsi}"))]),
                                     ],
                                   ),
                                 const SizedBox(height: 24),
                                 FilledButton(
                                   onPressed: () {
                                     if (_formKey.currentState!.validate()) {
-                                      context
-                                          .read<NutrisiHarianCubit>()
-                                          .storeNutrisiHarian(
+                                      context.read<NutrisiHarianCubit>().storeNutrisiHarian(
                                             DataNutrisiHarian(
                                               sesi: _selectedSesi,
                                               makanan: _selectedMakanan!,
@@ -201,11 +195,8 @@ class _MakananScreenState extends State<MakananScreen> {
                           return Padding(
                             padding: const EdgeInsets.symmetric(vertical: 24),
                             child: RetryButton(
-                              message: (state is MakananFailed)
-                                  ? state.message
-                                  : "Terjadi kesalahan",
-                              onPressed: () =>
-                                  context.read<MakananCubit>().getMakanan(),
+                              message: (state is MakananFailed) ? state.message : "Terjadi kesalahan",
+                              onPressed: () => context.read<MakananCubit>().getMakanan(),
                             ),
                           );
                         },

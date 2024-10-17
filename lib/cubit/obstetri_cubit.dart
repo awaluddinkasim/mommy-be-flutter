@@ -9,6 +9,19 @@ class ObstetriCubit extends Cubit<ObstetriState> {
 
   ObstetriCubit() : super(ObstetriInitial());
 
+  void toggleExpanded(int index) {
+    final obstetriList = (state as ObstetriSuccess).obstetri;
+    final obstetri = obstetriList.map((e) {
+      if (obstetriList.indexOf(e) == index) {
+        return e.copyWith(expanded: !e.expanded);
+      } else {
+        return e;
+      }
+    }).toList();
+
+    emit(ObstetriSuccess(obstetri));
+  }
+
   Future<void> getObstetri() async {
     emit(ObstetriLoading());
 

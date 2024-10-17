@@ -17,7 +17,7 @@ class DataStatusGizi {
         'tinggi_badan': tinggiBadan,
         'bb_sebelum_hamil': bbSebelumHamil,
         'bb_saat_hamil': bbSaatHamil,
-        'bb_setelah_hamil': bbSetelahMelahirkan,
+        'bb_setelah_melahirkan': bbSetelahMelahirkan,
         'aktifitas_harian': aktifitasHarian,
       };
 }
