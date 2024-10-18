@@ -19,6 +19,18 @@ class StatusGiziScreen extends StatefulWidget {
 }
 
 class _StatusGiziScreenState extends State<StatusGiziScreen> {
+  String _kategoriIMT(double imt) {
+    if (imt < 18.5) {
+      return "Kurus";
+    } else if (imt < 24.9) {
+      return "Normal";
+    } else if (imt < 29.9) {
+      return "Gemuk";
+    } else {
+      return "Obesitas";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,7 +109,7 @@ class _StatusGiziScreenState extends State<StatusGiziScreen> {
                             const SizedBox(height: 16),
                             Table(
                               columnWidths: const {
-                                0: FlexColumnWidth(2),
+                                0: FlexColumnWidth(1.5),
                                 1: FixedColumnWidth(16),
                                 2: FlexColumnWidth(1),
                               },
@@ -107,7 +119,7 @@ class _StatusGiziScreenState extends State<StatusGiziScreen> {
                                     const Text("IMT Pra Hamil"),
                                     const Text(":"),
                                     Text(
-                                      "${state.statusGizi!.imtPraHamil}",
+                                      "${state.statusGizi!.imtPraHamil} (${_kategoriIMT(state.statusGizi!.imtPraHamil)})",
                                       style: const TextStyle(fontWeight: FontWeight.bold),
                                     ),
                                   ],
@@ -117,7 +129,7 @@ class _StatusGiziScreenState extends State<StatusGiziScreen> {
                                     const Text("IMT Setelah Hamil"),
                                     const Text(":"),
                                     Text(
-                                      "${state.statusGizi!.imtPostHamil}",
+                                      "${state.statusGizi!.imtPostHamil} (${_kategoriIMT(state.statusGizi!.imtPostHamil)})",
                                       style: const TextStyle(fontWeight: FontWeight.bold),
                                     ),
                                   ],
@@ -179,12 +191,20 @@ class __FormStatusGiziState extends State<_FormStatusGizi> {
   final _bbSaatHamil = TextEditingController();
   final _bbSetelahHamil = TextEditingController();
 
-  double _tinggiBadan = 100.0;
-  double _beratBadanSebelumHamil = 50.00;
-  double _beratBadanSaatHamil = 50.00;
-  double _beratBadanSetelahHamil = 50.00;
+  double _tinggiBadan = 150.0;
+  double _beratBadanSebelumHamil = 60.00;
+  double _beratBadanSaatHamil = 60.00;
+  double _beratBadanSetelahHamil = 60.00;
 
   String? _aktifitasHarian;
+
+  final List<Map> _aktifitasHarianList = [
+    {"nama": "Sedentary", "penjelasan": ""},
+    {"nama": "Sedikit Aktif", "penjelasan": ""},
+    {"nama": "Moderat", "penjelasan": ""},
+    {"nama": "Aktif", "penjelasan": ""},
+    {"nama": "Sangat Aktif", "penjelasan": ""},
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -248,7 +268,7 @@ class __FormStatusGiziState extends State<_FormStatusGizi> {
                     children: [
                       DecimalNumberPicker(
                         value: _beratBadanSebelumHamil,
-                        minValue: 50,
+                        minValue: 30,
                         maxValue: 200,
                         decimalPlaces: 2,
                         onChanged: (value) => setState2(() {
@@ -288,7 +308,7 @@ class __FormStatusGiziState extends State<_FormStatusGizi> {
                     children: [
                       DecimalNumberPicker(
                         value: _beratBadanSaatHamil,
-                        minValue: 50,
+                        minValue: 30,
                         maxValue: 200,
                         decimalPlaces: 2,
                         onChanged: (value) => setState3(() {
@@ -328,7 +348,7 @@ class __FormStatusGiziState extends State<_FormStatusGizi> {
                     children: [
                       DecimalNumberPicker(
                         value: _beratBadanSetelahHamil,
-                        minValue: 50,
+                        minValue: 30,
                         maxValue: 200,
                         decimalPlaces: 2,
                         onChanged: (value) => setState4(() {
@@ -383,7 +403,39 @@ class __FormStatusGiziState extends State<_FormStatusGizi> {
             });
           },
         ),
-        const SizedBox(height: 16),
+        Container(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 24,
+          ),
+          decoration: BoxDecoration(
+            color: Colors.pink.shade50,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Table(
+                columnWidths: const {
+                  0: FlexColumnWidth(1.5),
+                  1: FixedColumnWidth(12),
+                  2: FlexColumnWidth(2),
+                },
+                children: [
+                  for (var aktifitas in _aktifitasHarianList)
+                    TableRow(
+                      children: [
+                        TableCell(child: Text(aktifitas['nama'])),
+                        const TableCell(child: Text(":")),
+                        TableCell(child: Text(aktifitas['penjelasan'])),
+                      ],
+                    ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 32),
         FilledButton(
           onPressed: () {
             context.read<StatusGiziCubit>().postStatusGizi(

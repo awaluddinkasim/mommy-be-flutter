@@ -42,6 +42,7 @@ dependencies:
   flutter_svg: ^2.0.10+1
   stop_watch_timer: ^3.2.1
   numberpicker: ^2.1.2
+  syncfusion_flutter_charts: ^27.1.53
 
 dev_dependencies:
   flutter_test:

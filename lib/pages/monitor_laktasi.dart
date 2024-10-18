@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mommy_be/cubit/laktasi_cubit.dart';
+import 'package:mommy_be/cubit/laktasi_state.dart';
 import 'package:mommy_be/data/laktasi.dart';
 import 'package:mommy_be/models/bayi.dart';
 import 'package:mommy_be/pages/laktasi_riwayat.dart';
@@ -22,6 +23,8 @@ class _MonitorLaktasiScreenState extends State<MonitorLaktasiScreen> {
   String _posisi = 'Kiri';
   final StopWatchTimer _stopWatchTimer = StopWatchTimer();
 
+  bool _enabled = true;
+
   @override
   void dispose() async {
     super.dispose();
@@ -29,6 +32,10 @@ class _MonitorLaktasiScreenState extends State<MonitorLaktasiScreen> {
   }
 
   void _submit(int duration) async {
+    setState(() {
+      _enabled = false;
+    });
+
     final navigator = Navigator.of(context);
 
     context
@@ -144,23 +151,34 @@ class _MonitorLaktasiScreenState extends State<MonitorLaktasiScreen> {
                         padding: const EdgeInsets.all(8),
                         child: Text(
                           displayTime,
-                          style: const TextStyle(
-                              fontSize: 40, fontWeight: FontWeight.bold),
+                          style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
                         ),
                       ),
                       if (!_stopWatchTimer.isRunning)
-                        FilledButton(
-                          onPressed: () {
-                            _currentTime = DateTime.now();
-                            _stopWatchTimer.onResetTimer();
-                            _stopWatchTimer.onStartTimer();
+                        BlocBuilder<LaktasiCubit, LaktasiState>(
+                          builder: (context, state) {
+                            if (state is LaktasiLoading) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+
+                            return FilledButton(
+                              onPressed: _enabled
+                                  ? () {
+                                      _currentTime = DateTime.now();
+                                      _stopWatchTimer.onResetTimer();
+                                      _stopWatchTimer.onStartTimer();
+                                    }
+                                  : null,
+                              style: const ButtonStyle(
+                                backgroundColor: WidgetStatePropertyAll<Color>(
+                                  Colors.blue,
+                                ),
+                              ),
+                              child: const Text("Mulai"),
+                            );
                           },
-                          style: const ButtonStyle(
-                            backgroundColor: WidgetStatePropertyAll<Color>(
-                              Colors.blue,
-                            ),
-                          ),
-                          child: const Text("Mulai"),
                         )
                       else
                         FilledButton(

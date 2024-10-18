@@ -1,18 +1,18 @@
 class Laktasi {
-  final DateTime mulai;
-  final DateTime selesai;
+  final DateTime pukul;
+  final String durasi;
   final String posisi;
 
   Laktasi({
-    required this.mulai,
-    required this.selesai,
+    required this.pukul,
+    required this.durasi,
     required this.posisi,
   });
 
   factory Laktasi.fromJson(Map<String, dynamic> json) {
     return Laktasi(
-      mulai: DateTime.parse(json['mulai']),
-      selesai: DateTime.parse(json['selesai']),
+      pukul: DateTime.parse(json['pukul']),
+      durasi: json['durasi'],
       posisi: json['posisi'],
     );
   }

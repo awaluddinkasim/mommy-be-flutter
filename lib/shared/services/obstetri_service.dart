@@ -35,4 +35,21 @@ class ObstetriService {
 
     return obstetriList;
   }
+
+  Future<List<Obstetri>> deleteObstetri(String token, Obstetri data) async {
+    final response = await Request.delete(
+      '/obstetri/${data.id}',
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    List<Obstetri> obstetriList = [];
+
+    for (var obstetri in response['data']['daftarObstetri']) {
+      obstetriList.add(Obstetri.fromJson(obstetri));
+    }
+
+    return obstetriList;
+  }
 }

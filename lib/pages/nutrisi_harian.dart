@@ -68,7 +68,7 @@ class _NutrisiHarianScreenState extends State<NutrisiHarianScreen> with SingleTi
               height: 250,
             ),
             const Text(
-              'Total kalori hari ini',
+              'Total kalori yang dikonsumsi',
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 16),
             ),

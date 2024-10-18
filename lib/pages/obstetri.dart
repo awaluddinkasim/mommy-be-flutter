@@ -81,6 +81,31 @@ class _ObstetriScreenState extends State<ObstetriScreen> {
                           return ExpansionPanel(
                             headerBuilder: (context, isExpanded) {
                               return ListTile(
+                                onLongPress: () {
+                                  showModalBottomSheet(
+                                    context: context,
+                                    builder: (context) {
+                                      return Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                          vertical: 24,
+                                        ),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            ListTile(
+                                              onTap: () {
+                                                context.read<ObstetriCubit>().deleteObstetri(obstetri);
+                                                Navigator.pop(context);
+                                              },
+                                              title: const Text("Hapus"),
+                                              leading: const Icon(Icons.delete),
+                                            )
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
                                 leading: const Icon(Icons.check_circle),
                                 title: Text(
                                   "Data Obstetri ${state.obstetri.indexOf(obstetri) + 1}",

@@ -162,17 +162,62 @@ class _MakananScreenState extends State<MakananScreen> {
                                 ),
                                 const SizedBox(height: 16),
                                 if (_selectedMakanan != null)
-                                  Table(
-                                    children: [
-                                      TableRow(
-                                          children: [const TableCell(child: Text("Makanan")), TableCell(child: Text(": ${_selectedMakanan!.nama}"))]),
-                                      TableRow(children: [
-                                        const TableCell(child: Text("Kalori")),
-                                        TableCell(child: Text(": ${_selectedMakanan!.kalori} kcal"))
-                                      ]),
-                                      TableRow(
-                                          children: [const TableCell(child: Text("Porsi")), TableCell(child: Text(": ${_selectedMakanan!.porsi}"))]),
-                                    ],
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 24,
+                                      vertical: 32,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: Colors.pink.shade50,
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                                      children: [
+                                        const Text(
+                                          "Informasi Makanan",
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 8),
+                                        Table(
+                                          columnWidths: const {
+                                            0: FlexColumnWidth(1),
+                                            1: FixedColumnWidth(12),
+                                            2: FlexColumnWidth(2),
+                                          },
+                                          children: [
+                                            TableRow(
+                                              children: [
+                                                const TableCell(child: Text("Makanan")),
+                                                const TableCell(child: Text(":")),
+                                                TableCell(
+                                                  child: Text(_selectedMakanan!.nama),
+                                                ),
+                                              ],
+                                            ),
+                                            TableRow(children: [
+                                              const TableCell(child: Text("Kalori")),
+                                              const TableCell(child: Text(":")),
+                                              TableCell(
+                                                child: Text("${_selectedMakanan!.kalori} kkal"),
+                                              ),
+                                            ]),
+                                            TableRow(
+                                              children: [
+                                                const TableCell(child: Text("Porsi")),
+                                                const TableCell(child: Text(":")),
+                                                TableCell(
+                                                  child: Text("${_selectedMakanan!.porsi}"),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 const SizedBox(height: 24),
                                 FilledButton(
@@ -186,7 +231,7 @@ class _MakananScreenState extends State<MakananScreen> {
                                           );
                                     }
                                   },
-                                  child: const Text("Submit"),
+                                  child: const Text("Tambah"),
                                 ),
                               ],
                             );

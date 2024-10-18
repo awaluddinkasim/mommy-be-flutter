@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:mommy_be/cubit/laktasi_cubit.dart';
 import 'package:mommy_be/cubit/laktasi_state.dart';
 import 'package:mommy_be/models/bayi.dart';
 import 'package:mommy_be/models/laktasi.dart';
+import 'package:mommy_be/models/laktasi_grafik.dart';
 import 'package:mommy_be/shared/widgets/page_title.dart';
 import 'package:mommy_be/shared/widgets/retry_button.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 class LaktasiRiwayatScreen extends StatefulWidget {
   const LaktasiRiwayatScreen({super.key, required this.baby});
@@ -66,8 +69,7 @@ class _LaktasiRiwayatScreenState extends State<LaktasiRiwayatScreen> {
                             crossAxisAlignment: WrapCrossAlignment.center,
                             children: [
                               Text(
-                                DateFormat('dd MMMM yyyy', 'ID')
-                                    .format(_tanggal),
+                                DateFormat('dd MMMM yyyy', 'ID').format(_tanggal),
                                 style: const TextStyle(
                                   fontSize: 16,
                                 ),
@@ -86,7 +88,7 @@ class _LaktasiRiwayatScreenState extends State<LaktasiRiwayatScreen> {
                                       setState(() {
                                         _tanggal = value;
                                       });
-                                      
+
                                       riwayat.getLaktasi(widget.baby.id, _tanggal);
                                     }
                                   });
@@ -96,6 +98,31 @@ class _LaktasiRiwayatScreenState extends State<LaktasiRiwayatScreen> {
                             ],
                           ),
                         ],
+                      ),
+                      const SizedBox(height: 16),
+                      FilledButton(
+                        onPressed: () {
+                          showModalBottomSheet(
+                            context: context,
+                            isScrollControlled: true,
+                            builder: (context) {
+                              return DraggableScrollableSheet(
+                                expand: false,
+                                initialChildSize: 0.5,
+                                minChildSize: 0.5,
+                                maxChildSize: 0.9,
+                                builder: (context, scrollController) {
+                                  return SingleChildScrollView(
+                                    controller: scrollController,
+                                    padding: const EdgeInsets.symmetric(vertical: 48, horizontal: 24),
+                                    child: const _Charts(),
+                                  );
+                                },
+                              );
+                            },
+                          );
+                        },
+                        child: const Text("Woah"),
                       ),
                       const SizedBox(height: 16),
                       BlocBuilder<LaktasiCubit, LaktasiState>(
@@ -112,10 +139,11 @@ class _LaktasiRiwayatScreenState extends State<LaktasiRiwayatScreen> {
                             }
 
                             return DataTable(
+                              columnSpacing: 20,
                               columns: const [
                                 DataColumn(label: Text('Posisi')),
-                                DataColumn(label: Text('Mulai')),
-                                DataColumn(label: Text('Selesai')),
+                                DataColumn(label: Text('Pukul')),
+                                DataColumn(label: Text('Durasi')),
                               ],
                               rows: [
                                 for (Laktasi laktasi in state.laktasiList)
@@ -123,12 +151,10 @@ class _LaktasiRiwayatScreenState extends State<LaktasiRiwayatScreen> {
                                     cells: [
                                       DataCell(Text(laktasi.posisi)),
                                       DataCell(
-                                        Text(DateFormat('HH:mm')
-                                            .format(laktasi.mulai)),
+                                        Text(DateFormat('HH:mm').format(laktasi.pukul)),
                                       ),
                                       DataCell(
-                                        Text(DateFormat('HH:mm')
-                                            .format(laktasi.selesai)),
+                                        Text(laktasi.durasi),
                                       ),
                                     ],
                                   ),
@@ -148,12 +174,8 @@ class _LaktasiRiwayatScreenState extends State<LaktasiRiwayatScreen> {
                           return Padding(
                             padding: const EdgeInsets.symmetric(vertical: 24),
                             child: RetryButton(
-                              message: (state is LaktasiFailed)
-                                  ? state.message
-                                  : "Terjadi kesalahan",
-                              onPressed: () => context
-                                  .read<LaktasiCubit>()
-                                  .getLaktasi(widget.baby.id, _tanggal),
+                              message: (state is LaktasiFailed) ? state.message : "Terjadi kesalahan",
+                              onPressed: () => context.read<LaktasiCubit>().getLaktasi(widget.baby.id, _tanggal),
                             ),
                           );
                         },
@@ -166,6 +188,65 @@ class _LaktasiRiwayatScreenState extends State<LaktasiRiwayatScreen> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _Charts extends StatefulWidget {
+  const _Charts({
+    super.key,
+  });
+
+  @override
+  State<_Charts> createState() => _ChartsState();
+}
+
+class _ChartsState extends State<_Charts> {
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      alignment: Alignment.topCenter,
+      clipBehavior: Clip.none,
+      children: [
+        Positioned(
+          top: -25,
+          child: Container(
+            width: 50,
+            height: 5,
+            decoration: const BoxDecoration(
+              color: Colors.grey,
+              borderRadius: BorderRadius.all(Radius.circular(5)),
+            ),
+          ),
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const Text(
+              "Laktasi",
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 16),
+            SfCartesianChart(
+              primaryXAxis: const CategoryAxis(),
+              primaryYAxis: const NumericAxis(),
+              series: [
+                SplineSeries<LaktasiGrafik, dynamic>(
+                  dataSource: [
+                    LaktasiGrafik(1, 10),
+                    LaktasiGrafik(2, 30),
+                  ],
+                  xValueMapper: (LaktasiGrafik data, _) => data.index,
+                  yValueMapper: (LaktasiGrafik data, _) => data.durasi,
+                ),
+              ],
+            )
+          ],
+        ),
+      ],
     );
   }
 }
