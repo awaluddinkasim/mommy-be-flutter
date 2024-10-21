@@ -4,7 +4,7 @@ class LaktasiGrafik {
 
   LaktasiGrafik(this.index, this.durasi);
 
-  factory LaktasiGrafik.fromJson(Map<String, dynamic> json) {
-    return LaktasiGrafik(json['index'], json['durasi']);
+  factory LaktasiGrafik.fromJson(Map<String, dynamic> json, index) {
+    return LaktasiGrafik(index, json['durasi']);
   }
 }

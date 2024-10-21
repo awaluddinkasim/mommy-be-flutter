@@ -16,7 +16,6 @@ class LaktasiCubit extends Cubit<LaktasiState> {
       final laktasiList = await _laktasiService.getLaktasi(token!, id, tanggal);
       emit(LaktasiSuccess(laktasiList));
     } catch (e) {
-      print(e);
       emit(LaktasiFailed(e.toString()));
     }
   }

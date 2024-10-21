@@ -5,6 +5,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:mommy_be/cubit/auth_cubit.dart';
 import 'package:mommy_be/cubit/bayi_cubit.dart';
 import 'package:mommy_be/cubit/laktasi_cubit.dart';
+import 'package:mommy_be/cubit/laktasi_grafik_cubit.dart';
 import 'package:mommy_be/cubit/makanan_cubit.dart';
 import 'package:mommy_be/cubit/nutrisi_harian_cubit.dart';
 import 'package:mommy_be/cubit/obstetri_cubit.dart';
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => AuthCubit()),
         BlocProvider(create: (context) => BayiCubit()),
         BlocProvider(create: (context) => LaktasiCubit()),
+        BlocProvider(create: (context) => LaktasiGrafikCubit()),
         BlocProvider(create: (context) => MakananCubit()),
         BlocProvider(create: (context) => NutrisiHarianCubit()),
         BlocProvider(create: (context) => ObstetriCubit()),
