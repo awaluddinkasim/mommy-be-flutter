@@ -37,9 +37,15 @@ class LaktasiService {
     List<LaktasiGrafik> kanan = [];
 
     for (int i = 0; i < response['data']['kiri'].length; i++) {
+      if (response['data']['kiri'].length == 1) {
+        kiri.add(LaktasiGrafik.fromJson({'durasi': 0.0}, 0));
+      }
       kiri.add(LaktasiGrafik.fromJson(response['data']['kiri'][i], i + 1));
     }
     for (int i = 0; i < response['data']['kanan'].length; i++) {
+      if (response['data']['kanan'].length == 1) {
+        kanan.add(LaktasiGrafik.fromJson({'durasi': 0.0}, 0));
+      }
       kanan.add(LaktasiGrafik.fromJson(response['data']['kanan'][i], i + 1));
     }
 

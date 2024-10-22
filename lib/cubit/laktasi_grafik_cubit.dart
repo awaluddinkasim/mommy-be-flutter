@@ -21,6 +21,7 @@ class LaktasiGrafikCubit extends Cubit<LaktasiGrafikState> {
         ),
       );
     } catch (e) {
+      print(e);
       emit(LaktasiGrafikFailed(e.toString()));
     }
   }

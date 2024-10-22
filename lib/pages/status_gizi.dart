@@ -199,11 +199,11 @@ class __FormStatusGiziState extends State<_FormStatusGizi> {
   String? _aktifitasHarian;
 
   final List<Map> _aktifitasHarianList = [
-    {"nama": "Sedentary", "penjelasan": ""},
-    {"nama": "Sedikit Aktif", "penjelasan": ""},
-    {"nama": "Moderat", "penjelasan": ""},
-    {"nama": "Aktif", "penjelasan": ""},
-    {"nama": "Sangat Aktif", "penjelasan": ""},
+    {"nama": "Sedentary", "penjelasan": "Sedikit bergerak, banyak duduk"},
+    {"nama": "Sedikit Aktif", "penjelasan": "Olahraga 1-3 kali/pekan"},
+    {"nama": "Moderat", "penjelasan": "Olahraga 3/5 kali/pekan"},
+    {"nama": "Aktif", "penjelasan": "Olahraga 6-7 kali/pekan"},
+    {"nama": "Sangat Aktif", "penjelasan": "Olahraga berat setiap hari"},
   ];
 
   @override

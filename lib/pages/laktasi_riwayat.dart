@@ -267,8 +267,14 @@ class _ChartsState extends State<_Charts> {
                         title: const ChartTitle(
                           text: 'Chart Durasi (Kiri)',
                         ),
-                        primaryXAxis: const CategoryAxis(),
-                        primaryYAxis: const NumericAxis(),
+                        primaryXAxis: const NumericAxis(
+                          interval: 1,
+                        ),
+                        primaryYAxis: const NumericAxis(
+                          title: AxisTitle(
+                            text: 'Durasi (Menit)',
+                          ),
+                        ),
                         series: [
                           LineSeries<LaktasiGrafik, dynamic>(
                             dataSource: state.kiri
@@ -279,7 +285,6 @@ class _ChartsState extends State<_Charts> {
                                   ),
                                 )
                                 .toList(),
-                            dataLabelMapper: (LaktasiGrafik data, _) => "aasd",
                             xValueMapper: (LaktasiGrafik data, _) => data.index,
                             yValueMapper: (LaktasiGrafik data, _) => data.durasi,
                           ),
@@ -290,8 +295,15 @@ class _ChartsState extends State<_Charts> {
                         title: const ChartTitle(
                           text: 'Chart Durasi (Kanan)',
                         ),
-                        primaryXAxis: const CategoryAxis(),
-                        primaryYAxis: const NumericAxis(),
+                        primaryXAxis: const NumericAxis(
+                          interval: 1,
+                        ),
+                        primaryYAxis: const NumericAxis(
+                          title: AxisTitle(
+                            text: 'Durasi (Menit)',
+                          ),
+                          axisLine: AxisLine(width: 1),
+                        ),
                         series: [
                           LineSeries<LaktasiGrafik, dynamic>(
                             dataSource: state.kanan
@@ -302,7 +314,6 @@ class _ChartsState extends State<_Charts> {
                                   ),
                                 )
                                 .toList(),
-                            dataLabelMapper: (LaktasiGrafik data, _) => "aasd",
                             xValueMapper: (LaktasiGrafik data, _) => data.index,
                             yValueMapper: (LaktasiGrafik data, _) => data.durasi,
                           ),
