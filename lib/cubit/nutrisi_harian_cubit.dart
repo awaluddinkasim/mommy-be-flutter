@@ -19,10 +19,13 @@ class NutrisiHarianCubit extends Cubit<NutrisiHarianState> {
     try {
       final token = await Constants.storage.read(key: 'token');
 
-      final nutrisiHarian =
-          await _nurtrisiHarianService.getNutrisiHarian(token!, tanggal);
-      emit(NutrisiHarianSuccess(nutrisiHarian));
+      final result = await _nurtrisiHarianService.getNutrisiHarian(token!, tanggal);
+      emit(NutrisiHarianSuccess(
+        nutrisiHarian: result['nutrisiHarian'],
+        kebutuhanKalori: result['kebutuhanKalori'],
+      ));
     } catch (e) {
+      print(e);
       emit(NutrisiHarianFailed(e.toString()));
     }
   }
@@ -33,9 +36,11 @@ class NutrisiHarianCubit extends Cubit<NutrisiHarianState> {
     try {
       final token = await Constants.storage.read(key: 'token');
 
-      final nutrisiHarian =
-          await _nurtrisiHarianService.postNutrisiHarian(token!, data);
-      emit(NutrisiHarianSuccess(nutrisiHarian));
+      final result = await _nurtrisiHarianService.postNutrisiHarian(token!, data);
+      emit(NutrisiHarianSuccess(
+        nutrisiHarian: result['nutrisiHarian'],
+        kebutuhanKalori: result['kebutuhanKalori'],
+      ));
     } catch (e) {
       emit(NutrisiHarianFailed(e.toString()));
     }

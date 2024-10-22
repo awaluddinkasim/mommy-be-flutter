@@ -236,14 +236,15 @@ class _ChartsState extends State<_Charts> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Text(
-              "Chart Kiri",
-              style: TextStyle(
+            const SizedBox(height: 16),
+            Text(
+              "Chart Laktasi ${DateFormat('dd MMMM yyyy', 'ID').format(widget.tanggal)}",
+              style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 32),
             BlocBuilder<LaktasiGrafikCubit, LaktasiGrafikState>(
               builder: (context, state) {
                 if (state is LaktasiGrafikInitial) {
@@ -277,6 +278,7 @@ class _ChartsState extends State<_Charts> {
                         ),
                         series: [
                           LineSeries<LaktasiGrafik, dynamic>(
+                            animationDuration: 500,
                             dataSource: state.kiri
                                 .map(
                                   (e) => LaktasiGrafik(
@@ -306,6 +308,7 @@ class _ChartsState extends State<_Charts> {
                         ),
                         series: [
                           LineSeries<LaktasiGrafik, dynamic>(
+                            animationDuration: 500,
                             dataSource: state.kanan
                                 .map(
                                   (e) => LaktasiGrafik(

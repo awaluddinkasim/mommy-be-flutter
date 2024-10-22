@@ -89,13 +89,33 @@ class _NutrisiHarianScreenState extends State<NutrisiHarianScreen> with SingleTi
                 }
 
                 if (state is NutrisiHarianSuccess) {
-                  return Text(
-                    "${context.read<NutrisiHarianCubit>().totalKalori} kkal",
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontSize: 36,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  final totalKalori = context.read<NutrisiHarianCubit>().totalKalori;
+
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Text(
+                        "$totalKalori kkal",
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 36,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      if (state.kebutuhanKalori != null)
+                        if (state.kebutuhanKalori! < totalKalori)
+                          const Text(
+                            'Kebutuhan kalori telah terpenuhi',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 16),
+                          )
+                        else
+                          Text(
+                            'Kurang ${state.kebutuhanKalori! - totalKalori} kkal',
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(fontSize: 16),
+                          ),
+                    ],
                   );
                 }
 
