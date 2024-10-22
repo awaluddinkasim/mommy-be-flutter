@@ -23,4 +23,14 @@ class StatusGiziService {
 
     return StatusGizi.fromJson(response['data']['statusGizi']);
   }
+
+  Future<StatusGizi> putStatusGizi(String token, StatusGizi statusGizi, DataStatusGizi data) async {
+    final response = await Request.put(
+      '/status-gizi/${statusGizi.id}',
+      data: data.toJson(),
+      headers: {'Authorization': 'Bearer $token'},
+    );
+
+    return StatusGizi.fromJson(response['data']['statusGizi']);
+  }
 }

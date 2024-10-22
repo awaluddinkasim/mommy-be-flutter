@@ -4,6 +4,7 @@ import 'package:mommy_be/cubit/status_gizi_cubit.dart';
 import 'package:mommy_be/cubit/status_gizi_state.dart';
 import 'package:mommy_be/data/status_gizi.dart';
 import 'package:mommy_be/models/obstetri.dart';
+import 'package:mommy_be/pages/status_gizi_edit.dart';
 import 'package:mommy_be/shared/widgets/input.dart';
 import 'package:mommy_be/shared/widgets/page_title.dart';
 import 'package:mommy_be/shared/widgets/retry_button.dart';
@@ -154,6 +155,19 @@ class _StatusGiziScreenState extends State<StatusGiziScreen> {
                                 style: const TextStyle(fontWeight: FontWeight.bold),
                               ),
                             ])),
+                            const SizedBox(height: 16),
+                            FilledButton.icon(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => StatusGiziEditScreen(statusGizi: state.statusGizi!),
+                                  ),
+                                );
+                              },
+                              icon: const Icon(Icons.edit_note),
+                              label: const Text("Edit"),
+                            ),
                           ],
                         );
                       }
@@ -438,7 +452,7 @@ class __FormStatusGiziState extends State<_FormStatusGizi> {
         const SizedBox(height: 32),
         FilledButton(
           onPressed: () {
-            context.read<StatusGiziCubit>().postStatusGizi(
+            context.read<StatusGiziCubit>().storeStatusGizi(
                   widget.obstetri,
                   DataStatusGizi(
                     tinggiBadan: _tinggiBadan,
