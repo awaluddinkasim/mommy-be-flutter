@@ -12,8 +12,6 @@ class NurtrisiHarianService {
       'Authorization': 'Bearer $token',
     });
 
-    print(response);
-
     List<NutrisiHarian> nutrisiHarianList = [];
 
     for (var item in response['data']['nutrisiHarian']) {

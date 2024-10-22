@@ -148,13 +148,17 @@ class _StatusGiziScreenState extends State<StatusGiziScreen> {
                               ],
                             ),
                             const SizedBox(height: 16),
-                            Text.rich(TextSpan(children: [
-                              const TextSpan(text: "Total kebutuhan kalori yang Anda butuhkan sehari-hari selama menyusui adalah "),
+                            Text.rich(
                               TextSpan(
-                                text: "${state.statusGizi!.kebutuhanKalori} kkal",
-                                style: const TextStyle(fontWeight: FontWeight.bold),
+                                children: [
+                                  const TextSpan(text: "Total kebutuhan kalori yang Anda butuhkan sehari-hari selama menyusui adalah "),
+                                  TextSpan(
+                                    text: "${state.statusGizi!.kebutuhanKalori} kkal",
+                                    style: const TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                ],
                               ),
-                            ])),
+                            ),
                             const SizedBox(height: 16),
                             FilledButton.icon(
                               onPressed: () {

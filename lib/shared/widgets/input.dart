@@ -31,7 +31,7 @@ class Input extends StatelessWidget {
   final bool obscureText;
   final String? Function(String?)? validator;
   final List<TextInputFormatter>? inputFormatters;
-  final Text? helperText;
+  final String? helperText;
   final Function()? onTap;
   final Function(String)? onChanged;
   final bool readOnly;
@@ -87,7 +87,23 @@ class Input extends StatelessWidget {
             ),
           ),
         ),
-        if (helperText != null) helperText!,
+        if (helperText != null)
+          Text.rich(
+            TextSpan(
+              children: [
+                const TextSpan(
+                  text: "* ",
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.red,
+                  ),
+                ),
+                TextSpan(
+                  text: helperText,
+                ),
+              ],
+            ),
+          ),
         const SizedBox(height: 20),
       ],
     );

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:mommy_be/cubit/auth_cubit.dart';
 import 'package:mommy_be/cubit/auth_state.dart';
 import 'package:mommy_be/pages/auth/login.dart';
+import 'package:mommy_be/pages/user_edit.dart';
 import 'package:mommy_be/shared/widgets/dialog/loading.dart';
 
 class UserScreen extends StatefulWidget {
@@ -37,7 +39,7 @@ class _UserScreenState extends State<UserScreen> {
             }
           },
           child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 96),
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 96),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -60,25 +62,63 @@ class _UserScreenState extends State<UserScreen> {
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
-                const SizedBox(height: 8),
                 Text(
-                  user.email,
+                  "${user.usia} Tahun",
                   textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.bodyLarge,
                 ),
-                const SizedBox(height: 8),
-                Text(
-                  user.nomorHp,
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.bodyLarge,
-                ),
-                const SizedBox(height: 36),
-                FilledButton.icon(
-                  onPressed: () {
-                    context.read<AuthCubit>().logout();
-                  },
-                  icon: const Icon(Icons.exit_to_app),
-                  label: const Text("Logout"),
+                const SizedBox(height: 24),
+                Card(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        ListTile(
+                          leading: const Icon(Icons.email),
+                          title: const Text("Email"),
+                          subtitle: Text(user.email),
+                        ),
+                        const SizedBox(height: 8),
+                        ListTile(
+                          leading: const Icon(Icons.phone),
+                          title: const Text("Nomor HP"),
+                          subtitle: Text(user.nomorHp),
+                        ),
+                        const SizedBox(height: 8),
+                        ListTile(
+                          leading: const Icon(Icons.calendar_today),
+                          title: const Text("Tgl. Lahir"),
+                          subtitle: Text(DateFormat('dd MMMM yyyy', 'ID').format(user.tanggalLahir)),
+                        ),
+                        const SizedBox(height: 24),
+                        FilledButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => UserEditScreen(user: user),
+                              ),
+                            ).then((_) {
+                              setState(() {});
+                            });
+                          },
+                          style: const ButtonStyle(
+                            backgroundColor: WidgetStatePropertyAll(
+                              Colors.blue,
+                            ),
+                          ),
+                          child: const Text("Edit Akun"),
+                        ),
+                        FilledButton.icon(
+                          onPressed: () {
+                            context.read<AuthCubit>().logout();
+                          },
+                          icon: const Icon(Icons.exit_to_app),
+                          label: const Text("Logout"),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ],
             ),

@@ -50,7 +50,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           MaterialPageRoute(
                             builder: (context) => const UserScreen(),
                           ),
-                        );
+                        ).then((_) {
+                          setState(() {});
+                        });
                       },
                       borderRadius: BorderRadius.circular(16),
                       child: Container(

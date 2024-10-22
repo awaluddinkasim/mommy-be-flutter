@@ -34,6 +34,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future<void> login(String email, String password) async {
     emit(AuthLoading());
+
     try {
       final auth = await _authService.login(email, password);
 
@@ -47,13 +48,24 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future<void> logout() async {
     emit(AuthLoading());
+
     try {
       final token = await Constants.storage.read(key: 'token');
+
       await _authService.logout(token!);
       await Constants.storage.delete(key: 'token');
+
       emit(AuthInitial());
     } catch (e) {
       emit(AuthFailed(e.toString()));
+    }
+  }
+
+  Future<void> updateUser(User user) async {
+    final currentState = state;
+
+    if (currentState is AuthSuccess) {
+      emit(AuthSuccess(currentState.auth.copyWith(user: user)));
     }
   }
 }

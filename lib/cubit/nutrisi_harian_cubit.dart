@@ -25,7 +25,6 @@ class NutrisiHarianCubit extends Cubit<NutrisiHarianState> {
         kebutuhanKalori: result['kebutuhanKalori'],
       ));
     } catch (e) {
-      print(e);
       emit(NutrisiHarianFailed(e.toString()));
     }
   }

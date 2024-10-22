@@ -15,4 +15,14 @@ class Auth {
       user: User.fromJson(json['user']),
     );
   }
+
+  Auth copyWith({
+    String? token,
+    User? user,
+  }) {
+    return Auth(
+      token: token ?? this.token,
+      user: user ?? this.user,
+    );
+  }
 }
