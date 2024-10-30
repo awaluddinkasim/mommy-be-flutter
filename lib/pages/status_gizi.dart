@@ -148,6 +148,8 @@ class _StatusGiziScreenState extends State<StatusGiziScreen> {
                               ],
                             ),
                             const SizedBox(height: 16),
+                            Text(state.statusGizi!.pesan),
+                            const SizedBox(height: 16),
                             Text.rich(
                               TextSpan(
                                 children: [

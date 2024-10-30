@@ -270,6 +270,9 @@ class _ChartsState extends State<_Charts> {
                         ),
                         primaryXAxis: const NumericAxis(
                           interval: 1,
+                          title: AxisTitle(
+                            text: 'Data (n)',
+                          ),
                         ),
                         primaryYAxis: const NumericAxis(
                           title: AxisTitle(
@@ -299,6 +302,9 @@ class _ChartsState extends State<_Charts> {
                         ),
                         primaryXAxis: const NumericAxis(
                           interval: 1,
+                          title: AxisTitle(
+                            text: 'Data (n)',
+                          ),
                         ),
                         primaryYAxis: const NumericAxis(
                           title: AxisTitle(

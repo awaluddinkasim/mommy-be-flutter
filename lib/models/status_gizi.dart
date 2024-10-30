@@ -9,6 +9,7 @@ class StatusGizi {
   final double imtPostHamil;
   final double resistensiBB;
   final double kebutuhanKalori;
+  final String pesan;
 
   StatusGizi({
     required this.id,
@@ -21,6 +22,7 @@ class StatusGizi {
     required this.imtPostHamil,
     required this.resistensiBB,
     required this.kebutuhanKalori,
+    required this.pesan,
   });
 
   factory StatusGizi.fromJson(Map<String, dynamic> json) {
@@ -35,6 +37,7 @@ class StatusGizi {
       imtPostHamil: double.parse(json['imt_post_hamil'].toString()),
       resistensiBB: double.parse(json['resistensi_bb'].toString()),
       kebutuhanKalori: double.parse(json['kebutuhan_kalori'].toString()),
+      pesan: json['pesan'],
     );
   }
 }

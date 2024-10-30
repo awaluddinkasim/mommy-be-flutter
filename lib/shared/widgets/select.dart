@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class Select extends StatelessWidget {
   const Select({
     super.key,
-    required this.label,
+    this.label,
     required this.icon,
     required this.items,
     required this.onChanged,
@@ -13,7 +13,7 @@ class Select extends StatelessWidget {
   });
 
   final dynamic value;
-  final String label;
+  final String? label;
   final String? hint;
   final Icon icon;
   final List<DropdownMenuItem> items;
@@ -25,16 +25,18 @@ class Select extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(
-          label,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
+        if (label != null)
+          Text(
+            label!,
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-        ),
         DropdownButtonFormField(
           value: value,
           items: items,
+          isExpanded: true,
           hint: hint == null ? null : Text(hint!),
           autovalidateMode: AutovalidateMode.onUserInteraction,
           onChanged: onChanged,

@@ -6,6 +6,7 @@ class Obstetri {
   final String metodePersalinan;
   final int jarakKelahiran;
   final String resiko;
+  final String pesan;
   final bool expanded;
 
   Obstetri({
@@ -16,6 +17,7 @@ class Obstetri {
     required this.metodePersalinan,
     required this.jarakKelahiran,
     required this.resiko,
+    required this.pesan,
     this.expanded = false,
   });
 
@@ -27,6 +29,7 @@ class Obstetri {
       riwayatAbortus: json['riwayat_abortus'],
       metodePersalinan: json['metode_persalinan'],
       jarakKelahiran: json['jarak_kelahiran'],
+      pesan: json['pesan'],
       resiko: json['resiko'],
     );
   }
@@ -39,6 +42,7 @@ class Obstetri {
     String? metodePersalinan,
     int? jarakKelahiran,
     String? resiko,
+    String? pesan,
     bool? expanded,
   }) {
     return Obstetri(
@@ -49,6 +53,7 @@ class Obstetri {
       metodePersalinan: metodePersalinan ?? this.metodePersalinan,
       jarakKelahiran: jarakKelahiran ?? this.jarakKelahiran,
       resiko: resiko ?? this.resiko,
+      pesan: pesan ?? this.pesan,
       expanded: expanded ?? this.expanded,
     );
   }

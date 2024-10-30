@@ -3,10 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mommy_be/cubit/auth_cubit.dart';
 import 'package:mommy_be/cubit/bayi_cubit.dart';
 import 'package:mommy_be/cubit/obstetri_cubit.dart';
+import 'package:mommy_be/cubit/screening_ppd_cubit.dart';
 import 'package:mommy_be/pages/baby.dart';
 import 'package:mommy_be/pages/laktasi.dart';
 import 'package:mommy_be/pages/nutrisi_harian.dart';
 import 'package:mommy_be/pages/obstetri.dart';
+import 'package:mommy_be/pages/screening_ppd.dart';
 import 'package:mommy_be/pages/user.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -216,6 +218,20 @@ class _HomeScreenState extends State<HomeScreen> {
                       image: Image.asset('assets/bottle.png'),
                       label: 'Monitor Laktasi',
                       deskripsi: 'Catat dan pantau jadwal serta durasi menyusui.',
+                    ),
+                    _HorizontalMenuItem(
+                      onTap: () {
+                        context.read<ScreeningPPDCubit>().getScreeningPPD();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ScreeningPPDScreen(),
+                          ),
+                        );
+                      },
+                      image: Image.asset('assets/ppd.png'),
+                      label: 'Screening PPD',
+                      deskripsi: 'Skrining kesehatan mental ibu pasca persalinan.',
                     ),
                     const SizedBox(
                       height: 50,

@@ -189,6 +189,8 @@ class _ObstetriScreenState extends State<ObstetriScreen> {
                                     ),
                                   ),
                                   const SizedBox(height: 16),
+                                  Text(obstetri.pesan),
+                                  const SizedBox(height: 16),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [

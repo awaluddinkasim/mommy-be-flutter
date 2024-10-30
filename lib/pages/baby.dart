@@ -6,6 +6,7 @@ import 'package:mommy_be/cubit/bayi_cubit.dart';
 import 'package:mommy_be/cubit/bayi_state.dart';
 import 'package:mommy_be/data/bayi.dart';
 import 'package:mommy_be/models/bayi.dart';
+import 'package:mommy_be/pages/baby_detail.dart';
 import 'package:mommy_be/shared/widgets/input.dart';
 import 'package:mommy_be/shared/widgets/page_title.dart';
 import 'package:mommy_be/shared/widgets/retry_button.dart';
@@ -41,8 +42,7 @@ class _BabyScreenState extends State<BabyScreen> {
                           builder: (context) {
                             return Padding(
                               padding: EdgeInsets.only(
-                                bottom:
-                                    MediaQuery.of(context).viewInsets.bottom,
+                                bottom: MediaQuery.of(context).viewInsets.bottom,
                               ),
                               child: const SingleChildScrollView(
                                 padding: EdgeInsets.symmetric(
@@ -85,6 +85,14 @@ class _BabyScreenState extends State<BabyScreen> {
                             Padding(
                               padding: const EdgeInsets.symmetric(vertical: 12),
                               child: ListTile(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => BabyDetailScreen(baby: bayi),
+                                    ),
+                                  );
+                                },
                                 contentPadding: const EdgeInsets.symmetric(
                                   horizontal: 8,
                                 ),
@@ -99,8 +107,7 @@ class _BabyScreenState extends State<BabyScreen> {
                                   ),
                                 ),
                                 subtitle: Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.stretch,
+                                  crossAxisAlignment: CrossAxisAlignment.stretch,
                                   children: [
                                     Text(bayi.jenisKelamin),
                                     Text(DateFormat(
@@ -123,16 +130,13 @@ class _BabyScreenState extends State<BabyScreen> {
                                             children: [
                                               ListTile(
                                                 onTap: () {
-                                                  context
-                                                      .read<BayiCubit>()
-                                                      .deleteBayi(
+                                                  context.read<BayiCubit>().deleteBayi(
                                                         bayi.id,
                                                       );
                                                   Navigator.pop(context);
                                                 },
                                                 title: const Text("Hapus"),
-                                                leading:
-                                                    const Icon(Icons.delete),
+                                                leading: const Icon(Icons.delete),
                                               )
                                             ],
                                           ),
@@ -165,9 +169,7 @@ class _BabyScreenState extends State<BabyScreen> {
                   return Padding(
                     padding: const EdgeInsets.symmetric(vertical: 24),
                     child: RetryButton(
-                      message: (state is BayiFailed)
-                          ? state.message
-                          : "Terjadi kesalahan",
+                      message: (state is BayiFailed) ? state.message : "Terjadi kesalahan",
                       onPressed: () => context.read<BayiCubit>().getBayi(),
                     ),
                   );
@@ -219,29 +221,11 @@ class _FormBabyState extends State<FormBaby> {
               return null;
             },
           ),
-          Select(
-            label: "Jenis Kelamin",
-            icon: const Icon(Icons.transgender),
-            items: const [
-              DropdownMenuItem(value: "Laki-laki", child: Text("Laki-laki")),
-              DropdownMenuItem(value: "Perempuan", child: Text("Perempuan")),
-            ],
-            onChanged: (value) {
-              setState(() {
-                _jenisKelamin = value!;
-              });
-            },
-            hint: "Pilih jenis kelamin",
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return "Jenis kelamin tidak boleh kosong";
-              }
-              return null;
-            },
-          ),
           Input(
             controller: _tanggalLahir,
             label: "Tanggal Lahir",
+            keyboardType: TextInputType.name,
+            textCapitalization: TextCapitalization.words,
             readOnly: true,
             onTap: () async {
               final date = await showDatePicker(
@@ -265,6 +249,26 @@ class _FormBabyState extends State<FormBaby> {
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return "Tanggal lahir tidak boleh kosong";
+              }
+              return null;
+            },
+          ),
+          Select(
+            label: "Jenis Kelamin",
+            icon: const Icon(Icons.transgender),
+            items: const [
+              DropdownMenuItem(value: "Laki-laki", child: Text("Laki-laki")),
+              DropdownMenuItem(value: "Perempuan", child: Text("Perempuan")),
+            ],
+            onChanged: (value) {
+              setState(() {
+                _jenisKelamin = value!;
+              });
+            },
+            hint: "Pilih jenis kelamin",
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return "Jenis kelamin tidak boleh kosong";
               }
               return null;
             },

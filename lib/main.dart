@@ -9,6 +9,7 @@ import 'package:mommy_be/cubit/laktasi_grafik_cubit.dart';
 import 'package:mommy_be/cubit/makanan_cubit.dart';
 import 'package:mommy_be/cubit/nutrisi_harian_cubit.dart';
 import 'package:mommy_be/cubit/obstetri_cubit.dart';
+import 'package:mommy_be/cubit/screening_ppd_cubit.dart';
 import 'package:mommy_be/cubit/status_gizi_cubit.dart';
 import 'package:mommy_be/loading.dart';
 
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => NutrisiHarianCubit()),
         BlocProvider(create: (context) => ObstetriCubit()),
         BlocProvider(create: (context) => StatusGiziCubit()),
+        BlocProvider(create: (context) => ScreeningPPDCubit()),
       ],
       child: MaterialApp(
         title: 'Mommy Be',
