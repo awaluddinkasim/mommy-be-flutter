@@ -7,8 +7,11 @@ import 'package:mommy_be/cubit/bayi_cubit.dart';
 import 'package:mommy_be/cubit/laktasi_cubit.dart';
 import 'package:mommy_be/cubit/laktasi_grafik_cubit.dart';
 import 'package:mommy_be/cubit/makanan_cubit.dart';
+import 'package:mommy_be/cubit/monitor_ekskresi_cubit.dart';
+import 'package:mommy_be/cubit/monitor_tidur_cubit.dart';
 import 'package:mommy_be/cubit/nutrisi_harian_cubit.dart';
 import 'package:mommy_be/cubit/obstetri_cubit.dart';
+import 'package:mommy_be/cubit/pertumbuhan_cubit.dart';
 import 'package:mommy_be/cubit/screening_ppd_cubit.dart';
 import 'package:mommy_be/cubit/status_gizi_cubit.dart';
 import 'package:mommy_be/loading.dart';
@@ -31,6 +34,9 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => AuthCubit()),
         BlocProvider(create: (context) => BayiCubit()),
+        BlocProvider(create: (context) => MonitorTidurCubit()),
+        BlocProvider(create: (context) => MonitorEkskresiCubit()),
+        BlocProvider(create: (context) => PertumbuhanCubit()),
         BlocProvider(create: (context) => LaktasiCubit()),
         BlocProvider(create: (context) => LaktasiGrafikCubit()),
         BlocProvider(create: (context) => MakananCubit()),

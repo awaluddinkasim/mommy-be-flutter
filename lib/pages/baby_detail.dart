@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mommy_be/models/bayi.dart';
-import 'package:mommy_be/pages/baby/eksresi.dart';
+import 'package:mommy_be/pages/baby/ekskresi.dart';
 import 'package:mommy_be/pages/baby/pertumbuhan.dart';
 import 'package:mommy_be/pages/baby/tidur.dart';
 
@@ -17,14 +17,14 @@ class BabyDetailScreen extends StatefulWidget {
 class _BabyDetailScreenState extends State<BabyDetailScreen> {
   int _currentIndex = 0;
 
-  final List _pages = const [
-    BabyMonitorTidurScreen(),
-    BabyMonitorEkskresiScreen(),
-    BabyPertumbuhanScreen(),
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final List pages = [
+      BabyMonitorTidurScreen(bayi: widget.baby),
+      BabyMonitorEkskresiScreen(bayi: widget.baby),
+      BabyPertumbuhanScreen(bayi: widget.baby),
+    ];
+
     return Scaffold(
       backgroundColor: Colors.grey.shade200,
       appBar: AppBar(
@@ -32,7 +32,7 @@ class _BabyDetailScreenState extends State<BabyDetailScreen> {
         foregroundColor: Colors.white,
         title: Text(widget.baby.nama),
       ),
-      body: _pages[_currentIndex],
+      body: pages[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: (index) => setState(() => _currentIndex = index),

@@ -432,26 +432,21 @@ class __FormStatusGiziState extends State<_FormStatusGizi> {
             color: Colors.pink.shade50,
             borderRadius: BorderRadius.circular(12),
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+          child: Table(
+            columnWidths: const {
+              0: FlexColumnWidth(1.5),
+              1: FixedColumnWidth(12),
+              2: FlexColumnWidth(2),
+            },
             children: [
-              Table(
-                columnWidths: const {
-                  0: FlexColumnWidth(1.5),
-                  1: FixedColumnWidth(12),
-                  2: FlexColumnWidth(2),
-                },
-                children: [
-                  for (var aktifitas in _aktifitasHarianList)
-                    TableRow(
-                      children: [
-                        TableCell(child: Text(aktifitas['nama'])),
-                        const TableCell(child: Text(":")),
-                        TableCell(child: Text(aktifitas['penjelasan'])),
-                      ],
-                    ),
-                ],
-              ),
+              for (var aktifitas in _aktifitasHarianList)
+                TableRow(
+                  children: [
+                    TableCell(child: Text(aktifitas['nama'])),
+                    const TableCell(child: Text(":")),
+                    TableCell(child: Text(aktifitas['penjelasan'])),
+                  ],
+                ),
             ],
           ),
         ),

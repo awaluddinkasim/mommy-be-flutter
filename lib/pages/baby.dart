@@ -214,6 +214,8 @@ class _FormBabyState extends State<FormBaby> {
             label: "Nama",
             icon: const Icon(Icons.person),
             hintText: "Masukkan nama",
+            textCapitalization: TextCapitalization.words,
+            keyboardType: TextInputType.name,
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return "Nama tidak boleh kosong";
@@ -224,8 +226,6 @@ class _FormBabyState extends State<FormBaby> {
           Input(
             controller: _tanggalLahir,
             label: "Tanggal Lahir",
-            keyboardType: TextInputType.name,
-            textCapitalization: TextCapitalization.words,
             readOnly: true,
             onTap: () async {
               final date = await showDatePicker(

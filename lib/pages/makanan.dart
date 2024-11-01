@@ -65,7 +65,7 @@ class _MakananScreenState extends State<MakananScreen> {
               final navigator = Navigator.of(context);
 
               navigator.pop();
-              navigator.pop();
+              navigator.pop("success");
             }
           },
           child: SingleChildScrollView(

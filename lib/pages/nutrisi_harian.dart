@@ -52,7 +52,13 @@ class _NutrisiHarianScreenState extends State<NutrisiHarianScreen> with SingleTi
                         MaterialPageRoute(
                           builder: (context) => const MakananScreen(),
                         ),
-                      );
+                      ).then((value) {
+                        if (value != null) {
+                          setState(() {
+                            _tanggal = DateTime.now();
+                          });
+                        }
+                      });
                     },
                     style: ButtonStyle(
                       visualDensity: VisualDensity.compact,
