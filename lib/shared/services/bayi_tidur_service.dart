@@ -12,7 +12,6 @@ class BayiTidurService {
         'Authorization': 'Bearer $token',
       },
     );
-    print(response);
 
     List<MonitorTidur> monitorTidurList = [];
 

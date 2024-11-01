@@ -165,24 +165,24 @@ class _BabyMonitorEkskresiScreenState extends State<BabyMonitorEkskresiScreen> {
                                   children: [
                                     TableRow(
                                       children: [
-                                        TableCell(child: Text("Buang Air Kecil")),
+                                        const TableCell(child: Text("Buang Air Kecil")),
                                         const TableCell(child: Text(":")),
                                         TableCell(
                                           child: Text(
                                             state.monitorEkskresi.where((e) => e.ekskresi == "Buang Air Kecil").length.toString(),
-                                            style: TextStyle(fontWeight: FontWeight.bold),
+                                            style: const TextStyle(fontWeight: FontWeight.bold),
                                           ),
                                         ),
                                       ],
                                     ),
                                     TableRow(
                                       children: [
-                                        TableCell(child: Text("Buang Air Besar")),
+                                        const TableCell(child: Text("Buang Air Besar")),
                                         const TableCell(child: Text(":")),
                                         TableCell(
                                           child: Text(
                                             state.monitorEkskresi.where((e) => e.ekskresi == "Buang Air Besar").length.toString(),
-                                            style: TextStyle(fontWeight: FontWeight.bold),
+                                            style: const TextStyle(fontWeight: FontWeight.bold),
                                           ),
                                         ),
                                       ],

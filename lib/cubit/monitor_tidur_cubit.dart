@@ -18,7 +18,6 @@ class MonitorTidurCubit extends Cubit<MonitorTidurState> {
       final monitorTidur = await _monitorTidurService.getBayiTidur(token!, bayi, tanggal);
       emit(MonitorTidurSuccess(monitorTidur));
     } catch (e) {
-      print(e);
       emit(MonitorTidurFailed(e.toString()));
     }
   }
@@ -32,7 +31,6 @@ class MonitorTidurCubit extends Cubit<MonitorTidurState> {
       final result = await _monitorTidurService.postBayiTidur(token!, bayi, data);
       emit(MonitorTidurSuccess(result));
     } catch (e) {
-      print(e);
       emit(MonitorTidurFailed(e.toString()));
     }
   }

@@ -31,7 +31,6 @@ class MonitorEkskresiCubit extends Cubit<MonitorEkskresiState> {
       final result = await _monitorEkskresiService.postEkskresi(token!, bayi, data);
       emit(MonitorEkskresiSuccess(result));
     } catch (e) {
-      print(e);
       emit(MonitorEkskresiFailed(e.toString()));
     }
   }
