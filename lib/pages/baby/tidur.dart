@@ -19,15 +19,16 @@ class BabyMonitorTidurScreen extends StatefulWidget {
 }
 
 class _BabyMonitorTidurScreenState extends State<BabyMonitorTidurScreen> {
-  final DateTime _tanggalHariIni = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+  final DateTime _tanggalHariIni =
+      DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
   late DateTime _tanggal = _tanggalHariIni;
 
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration.zero, () {
-      final cubit = context.read<MonitorTidurCubit>();
 
+    final cubit = context.read<MonitorTidurCubit>();
+    Future.delayed(Duration.zero, () {
       cubit.getMonitorTidur(widget.bayi, _tanggal);
     });
   }
@@ -140,7 +141,8 @@ class _BabyMonitorTidurScreenState extends State<BabyMonitorTidurScreen> {
 
                         return Column(
                           children: [
-                            for (MonitorTidur data in state.monitorTidur) _DataItem(data: data, widget: widget),
+                            for (MonitorTidur data in state.monitorTidur)
+                              _DataItem(data: data, widget: widget),
                           ],
                         );
                       }
@@ -148,8 +150,12 @@ class _BabyMonitorTidurScreenState extends State<BabyMonitorTidurScreen> {
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 24),
                         child: RetryButton(
-                          message: (state is MonitorTidurFailed) ? state.message : "Terjadi kesalahan",
-                          onPressed: () => context.read<MonitorTidurCubit>().getMonitorTidur(widget.bayi, _tanggal),
+                          message: (state is MonitorTidurFailed)
+                              ? state.message
+                              : "Terjadi kesalahan",
+                          onPressed: () => context
+                              .read<MonitorTidurCubit>()
+                              .getMonitorTidur(widget.bayi, _tanggal),
                         ),
                       );
                     },
@@ -179,7 +185,8 @@ class _DataItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: const Icon(CupertinoIcons.zzz),
-      title: Text("${data.tidur.format(context)} - ${data.bangun.format(context)}"),
+      title: Text(
+          "${data.tidur.format(context)} - ${data.bangun.format(context)}"),
       subtitle: Text(data.durasiTidur),
       trailing: IconButton(
         onPressed: () {

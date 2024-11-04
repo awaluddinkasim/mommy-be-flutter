@@ -71,7 +71,8 @@ class _LaktasiRiwayatScreenState extends State<LaktasiRiwayatScreen> {
                             crossAxisAlignment: WrapCrossAlignment.center,
                             children: [
                               Text(
-                                DateFormat('dd MMMM yyyy', 'ID').format(_tanggal),
+                                DateFormat('dd MMMM yyyy', 'ID')
+                                    .format(_tanggal),
                                 style: const TextStyle(
                                   fontSize: 16,
                                 ),
@@ -91,7 +92,8 @@ class _LaktasiRiwayatScreenState extends State<LaktasiRiwayatScreen> {
                                         _tanggal = value;
                                       });
 
-                                      riwayat.getLaktasi(widget.baby.id, _tanggal);
+                                      riwayat.getLaktasi(
+                                          widget.baby.id, _tanggal);
                                     }
                                   });
                                 },
@@ -115,7 +117,9 @@ class _LaktasiRiwayatScreenState extends State<LaktasiRiwayatScreen> {
                               );
                             }
 
-                            context.read<LaktasiGrafikCubit>().getLaktasiCharts(widget.baby.id, _tanggal);
+                            context
+                                .read<LaktasiGrafikCubit>()
+                                .getLaktasiCharts(widget.baby.id, _tanggal);
 
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -124,25 +128,41 @@ class _LaktasiRiwayatScreenState extends State<LaktasiRiwayatScreen> {
                                   onPressed: () {
                                     showModalBottomSheet(
                                       context: context,
-                                      isScrollControlled: true,
                                       builder: (context) {
-                                        return DraggableScrollableSheet(
-                                          expand: false,
-                                          initialChildSize: 0.5,
-                                          minChildSize: 0.5,
-                                          maxChildSize: 0.9,
-                                          builder: (context, scrollController) {
-                                            return SingleChildScrollView(
-                                              controller: scrollController,
-                                              padding: const EdgeInsets.symmetric(vertical: 48, horizontal: 24),
-                                              child: _Charts(baby: widget.baby, tanggal: _tanggal),
-                                            );
-                                          },
+                                        return Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 36),
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              ListTile(
+                                                onTap: () {
+                                                  Navigator.pop(context);
+                                                  _showChartHarian(context);
+                                                },
+                                                leading: const Icon(
+                                                  CupertinoIcons.doc_chart_fill,
+                                                ),
+                                                title: const Text("Chart Harian"),
+                                              ),
+                                              ListTile(
+                                                onTap: () {
+                                                  Navigator.pop(context);
+                                                  _showChartMingguan(context);
+                                                },
+                                                leading: const Icon(
+                                                  CupertinoIcons.doc_chart_fill,
+                                                ),
+                                                title: const Text("Chart Mingguan"),
+                                              ),
+                                            ],
+                                          ),
                                         );
                                       },
                                     );
                                   },
-                                  icon: const Icon(CupertinoIcons.chart_bar_circle),
+                                  icon: const Icon(
+                                      CupertinoIcons.chart_bar_circle),
                                   label: const Text("Chart"),
                                 ),
                                 const SizedBox(height: 16),
@@ -159,7 +179,8 @@ class _LaktasiRiwayatScreenState extends State<LaktasiRiwayatScreen> {
                                         cells: [
                                           DataCell(Text(laktasi.posisi)),
                                           DataCell(
-                                            Text(DateFormat('HH:mm').format(laktasi.pukul)),
+                                            Text(DateFormat('HH:mm')
+                                                .format(laktasi.pukul)),
                                           ),
                                           DataCell(
                                             Text(laktasi.durasi),
@@ -184,8 +205,12 @@ class _LaktasiRiwayatScreenState extends State<LaktasiRiwayatScreen> {
                           return Padding(
                             padding: const EdgeInsets.symmetric(vertical: 24),
                             child: RetryButton(
-                              message: (state is LaktasiFailed) ? state.message : "Terjadi kesalahan",
-                              onPressed: () => context.read<LaktasiCubit>().getLaktasi(widget.baby.id, _tanggal),
+                              message: (state is LaktasiFailed)
+                                  ? state.message
+                                  : "Terjadi kesalahan",
+                              onPressed: () => context
+                                  .read<LaktasiCubit>()
+                                  .getLaktasi(widget.baby.id, _tanggal),
                             ),
                           );
                         },
@@ -200,22 +225,78 @@ class _LaktasiRiwayatScreenState extends State<LaktasiRiwayatScreen> {
       ),
     );
   }
+
+  Future<dynamic> _showChartHarian(BuildContext context) {
+    return showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) {
+        return DraggableScrollableSheet(
+          expand: false,
+          initialChildSize: 0.5,
+          minChildSize: 0.5,
+          maxChildSize: 0.9,
+          builder: (context, scrollController) {
+            return SingleChildScrollView(
+              controller: scrollController,
+              padding: const EdgeInsets.symmetric(
+                vertical: 48,
+                horizontal: 24,
+              ),
+              child: _ChartHarian(
+                baby: widget.baby,
+                tanggal: _tanggal,
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Future<dynamic> _showChartMingguan(BuildContext context) {
+    return showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) {
+        return DraggableScrollableSheet(
+          expand: false,
+          initialChildSize: 0.5,
+          minChildSize: 0.5,
+          maxChildSize: 0.9,
+          builder: (context, scrollController) {
+            return SingleChildScrollView(
+              controller: scrollController,
+              padding: const EdgeInsets.symmetric(
+                vertical: 48,
+                horizontal: 24,
+              ),
+              child: _ChartMingguan(
+                baby: widget.baby,
+                tanggal: _tanggal,
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
 }
 
-class _Charts extends StatefulWidget {
+class _ChartHarian extends StatefulWidget {
   final Bayi baby;
   final DateTime tanggal;
 
-  const _Charts({
+  const _ChartHarian({
     required this.baby,
     required this.tanggal,
   });
 
   @override
-  State<_Charts> createState() => _ChartsState();
+  State<_ChartHarian> createState() => _ChartHarianState();
 }
 
-class _ChartsState extends State<_Charts> {
+class _ChartHarianState extends State<_ChartHarian> {
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -237,14 +318,160 @@ class _ChartsState extends State<_Charts> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const SizedBox(height: 16),
-            Text(
-              "Chart Laktasi ${DateFormat('dd MMMM yyyy', 'ID').format(widget.tanggal)}",
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
+            BlocBuilder<LaktasiGrafikCubit, LaktasiGrafikState>(
+              builder: (context, state) {
+                if (state is LaktasiGrafikInitial) {
+                  return Container();
+                }
+
+                if (state is LaktasiLoading) {
+                  return const Center(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 36),
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                }
+
+                if (state is LaktasiGrafikSuccess) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Text(
+                        "Chart Laktasi ${DateFormat('dd MMMM yyyy', 'ID').format(widget.tanggal)}",
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 32),
+                      SfCartesianChart(
+                        title: const ChartTitle(
+                          text: 'Chart Kiri',
+                        ),
+                        primaryXAxis: const NumericAxis(
+                          interval: 1,
+                          title: AxisTitle(
+                            text: 'Data (n)',
+                          ),
+                        ),
+                        primaryYAxis: const NumericAxis(
+                          title: AxisTitle(
+                            text: 'Durasi (Menit)',
+                          ),
+                        ),
+                        series: [
+                          LineSeries<LaktasiGrafik, dynamic>(
+                            animationDuration: 500,
+                            dataSource: state.kiri
+                                .map(
+                                  (e) => LaktasiGrafik(
+                                    e.index,
+                                    e.tanggal,
+                                    e.durasi,
+                                  ),
+                                )
+                                .toList(),
+                            xValueMapper: (LaktasiGrafik data, _) => data.index,
+                            yValueMapper: (LaktasiGrafik data, _) =>
+                                data.durasi,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 32),
+                      SfCartesianChart(
+                        title: const ChartTitle(
+                          text: 'Chart Kanan',
+                        ),
+                        primaryXAxis: const NumericAxis(
+                          interval: 1,
+                          title: AxisTitle(
+                            text: 'Data (n)',
+                          ),
+                        ),
+                        primaryYAxis: const NumericAxis(
+                          title: AxisTitle(
+                            text: 'Durasi (Menit)',
+                          ),
+                          axisLine: AxisLine(width: 1),
+                        ),
+                        series: [
+                          LineSeries<LaktasiGrafik, dynamic>(
+                            animationDuration: 500,
+                            dataSource: state.kanan
+                                .map(
+                                  (e) => LaktasiGrafik(
+                                    e.index,
+                                    e.tanggal,
+                                    e.durasi,
+                                  ),
+                                )
+                                .toList(),
+                            xValueMapper: (LaktasiGrafik data, _) => data.index,
+                            yValueMapper: (LaktasiGrafik data, _) =>
+                                data.durasi,
+                          ),
+                        ],
+                      ),
+                    ],
+                  );
+                }
+
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 24),
+                  child: RetryButton(
+                    message: (state is LaktasiGrafikFailed)
+                        ? state.message
+                        : "Terjadi kesalahan",
+                    onPressed: () => context
+                        .read<LaktasiGrafikCubit>()
+                        .getLaktasiCharts(widget.baby.id, widget.tanggal),
+                  ),
+                );
+              },
+            )
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class _ChartMingguan extends StatefulWidget {
+  final Bayi baby;
+  final DateTime tanggal;
+
+  const _ChartMingguan({
+    required this.baby,
+    required this.tanggal,
+  });
+
+  @override
+  State<_ChartMingguan> createState() => _ChartMingguanState();
+}
+
+class _ChartMingguanState extends State<_ChartMingguan> {
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      alignment: Alignment.topCenter,
+      clipBehavior: Clip.none,
+      children: [
+        Positioned(
+          top: -25,
+          child: Container(
+            width: 50,
+            height: 5,
+            decoration: const BoxDecoration(
+              color: Colors.grey,
+              borderRadius: BorderRadius.all(Radius.circular(5)),
             ),
-            const SizedBox(height: 32),
+          ),
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const SizedBox(height: 16),
             BlocBuilder<LaktasiGrafikCubit, LaktasiGrafikState>(
               builder: (context, state) {
                 if (state is LaktasiGrafikInitial) {
@@ -266,12 +493,12 @@ class _ChartsState extends State<_Charts> {
                     children: [
                       SfCartesianChart(
                         title: const ChartTitle(
-                          text: 'Chart Durasi (Kiri)',
+                          text: 'Durasi Rata-rata Kiri',
                         ),
-                        primaryXAxis: const NumericAxis(
+                        primaryXAxis: const CategoryAxis(
                           interval: 1,
                           title: AxisTitle(
-                            text: 'Data (n)',
+                            text: 'Hari',
                           ),
                         ),
                         primaryYAxis: const NumericAxis(
@@ -286,24 +513,27 @@ class _ChartsState extends State<_Charts> {
                                 .map(
                                   (e) => LaktasiGrafik(
                                     e.index,
+                                    e.tanggal,
                                     e.durasi,
                                   ),
                                 )
                                 .toList(),
-                            xValueMapper: (LaktasiGrafik data, _) => data.index,
-                            yValueMapper: (LaktasiGrafik data, _) => data.durasi,
+                            xValueMapper: (LaktasiGrafik data, _) =>
+                                DateFormat('EEEE', 'ID').format(data.tanggal),
+                            yValueMapper: (LaktasiGrafik data, _) =>
+                                data.durasi,
                           ),
                         ],
                       ),
                       const SizedBox(height: 32),
                       SfCartesianChart(
                         title: const ChartTitle(
-                          text: 'Chart Durasi (Kanan)',
+                          text: 'Durasi Rata-rata Kanan',
                         ),
-                        primaryXAxis: const NumericAxis(
+                        primaryXAxis: const CategoryAxis(
                           interval: 1,
                           title: AxisTitle(
-                            text: 'Data (n)',
+                            text: 'Hari',
                           ),
                         ),
                         primaryYAxis: const NumericAxis(
@@ -319,12 +549,15 @@ class _ChartsState extends State<_Charts> {
                                 .map(
                                   (e) => LaktasiGrafik(
                                     e.index,
+                                    e.tanggal,
                                     e.durasi,
                                   ),
                                 )
                                 .toList(),
-                            xValueMapper: (LaktasiGrafik data, _) => data.index,
-                            yValueMapper: (LaktasiGrafik data, _) => data.durasi,
+                            xValueMapper: (LaktasiGrafik data, _) =>
+                                DateFormat('EEEE', 'ID').format(data.tanggal),
+                            yValueMapper: (LaktasiGrafik data, _) =>
+                                data.durasi,
                           ),
                         ],
                       ),
@@ -335,8 +568,12 @@ class _ChartsState extends State<_Charts> {
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 24),
                   child: RetryButton(
-                    message: (state is LaktasiGrafikFailed) ? state.message : "Terjadi kesalahan",
-                    onPressed: () => context.read<LaktasiGrafikCubit>().getLaktasiCharts(widget.baby.id, widget.tanggal),
+                    message: (state is LaktasiGrafikFailed)
+                        ? state.message
+                        : "Terjadi kesalahan",
+                    onPressed: () => context
+                        .read<LaktasiGrafikCubit>()
+                        .getLaktasiCharts(widget.baby.id, widget.tanggal),
                   ),
                 );
               },

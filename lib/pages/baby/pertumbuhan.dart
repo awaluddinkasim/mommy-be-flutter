@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:mommy_be/cubit/pertumbuhan_cubit.dart';
 import 'package:mommy_be/cubit/pertumbuhan_state.dart';
 import 'package:mommy_be/models/bayi.dart';
@@ -23,8 +22,9 @@ class _BabyPertumbuhanScreenState extends State<BabyPertumbuhanScreen> {
   void initState() {
     super.initState();
 
+    final cubit = context.read<PertumbuhanCubit>();
     Future.delayed(Duration.zero, () {
-      context.read<PertumbuhanCubit>().getPertumbuhan(widget.bayi);
+      cubit.getPertumbuhan(widget.bayi);
     });
   }
 
@@ -57,7 +57,8 @@ class _BabyPertumbuhanScreenState extends State<BabyPertumbuhanScreen> {
                   ),
                 ),
                 const SizedBox(height: 16),
-                BlocBuilder<PertumbuhanCubit, PertumbuhanState>(builder: (context, state) {
+                BlocBuilder<PertumbuhanCubit, PertumbuhanState>(
+                    builder: (context, state) {
                   if (state is PertumbuhanLoading) {
                     return const Center(
                       child: Padding(
@@ -89,25 +90,32 @@ class _BabyPertumbuhanScreenState extends State<BabyPertumbuhanScreen> {
                                   title: const ChartTitle(
                                     text: 'Chart Pertumbuhan',
                                   ),
-                                  primaryXAxis: const CategoryAxis(),
+                                  primaryXAxis: const NumericAxis(
+                                    title: AxisTitle(text: "Usia (Minggu)"),
+                                    interval: 1,
+                                  ),
                                   primaryYAxis: const NumericAxis(),
                                   legend: const Legend(isVisible: true),
                                   series: [
                                     AreaSeries<Pertumbuhan, dynamic>(
-                                      name: 'Panjang Badan',
+                                      name: 'Tinggi Badan',
                                       color: Colors.green.withOpacity(0.3),
                                       animationDuration: 500,
                                       dataSource: state.pertumbuhan,
-                                      xValueMapper: (Pertumbuhan data, _) => DateFormat('dd MMM yy', 'ID').format(data.tanggal),
-                                      yValueMapper: (Pertumbuhan data, _) => data.panjangBadan,
+                                      xValueMapper: (Pertumbuhan data, _) =>
+                                          data.usia,
+                                      yValueMapper: (Pertumbuhan data, _) =>
+                                          data.tinggiBadan,
                                     ),
                                     AreaSeries<Pertumbuhan, dynamic>(
                                       name: 'Berat Badan',
                                       color: Colors.blue.withOpacity(0.3),
                                       animationDuration: 500,
                                       dataSource: state.pertumbuhan,
-                                      xValueMapper: (Pertumbuhan data, _) => DateFormat('dd MMM yy', 'ID').format(data.tanggal),
-                                      yValueMapper: (Pertumbuhan data, _) => data.beratBadan,
+                                      xValueMapper: (Pertumbuhan data, _) =>
+                                          data.usia,
+                                      yValueMapper: (Pertumbuhan data, _) =>
+                                          data.beratBadan,
                                     ),
                                   ],
                                 ),
@@ -115,7 +123,8 @@ class _BabyPertumbuhanScreenState extends State<BabyPertumbuhanScreen> {
                               const SizedBox(height: 32),
                             ],
                           ),
-                        for (Pertumbuhan data in state.pertumbuhan) _DataItem(data: data, widget: widget),
+                        for (Pertumbuhan data in state.pertumbuhan)
+                          _DataItem(data: data, widget: widget),
                       ],
                     );
                   }
@@ -123,8 +132,12 @@ class _BabyPertumbuhanScreenState extends State<BabyPertumbuhanScreen> {
                   return Padding(
                     padding: const EdgeInsets.symmetric(vertical: 24),
                     child: RetryButton(
-                      message: (state is PertumbuhanFailed) ? state.message : "Terjadi kesalahan",
-                      onPressed: () => context.read<PertumbuhanCubit>().getPertumbuhan(widget.bayi),
+                      message: (state is PertumbuhanFailed)
+                          ? state.message
+                          : "Terjadi kesalahan",
+                      onPressed: () => context
+                          .read<PertumbuhanCubit>()
+                          .getPertumbuhan(widget.bayi),
                     ),
                   );
                 })
@@ -151,14 +164,14 @@ class _DataItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12),
       child: ListTile(
-        title: Text(DateFormat('dd MMMM yyyy', 'ID').format(data.tanggal)),
+        title: Text('Usia minggu ke-${data.usia}'),
         subtitle: Row(
           children: [
             const Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Text("Panjang Badan"),
+                  Text("Tinggi Badan"),
                   Text("Berat Badan"),
                 ],
               ),
@@ -168,7 +181,7 @@ class _DataItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
-                    "${data.panjangBadan} cm",
+                    "${data.tinggiBadan} cm",
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                   Text(

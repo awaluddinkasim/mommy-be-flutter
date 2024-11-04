@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:mommy_be/cubit/pertumbuhan_cubit.dart';
 import 'package:mommy_be/cubit/pertumbuhan_state.dart';
 import 'package:mommy_be/data/pertumbuhan.dart';
@@ -21,12 +21,11 @@ class BabyTambahPertumbuhanScreen extends StatefulWidget {
 class _BabyTambahPertumbuhanScreenState extends State<BabyTambahPertumbuhanScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  final _tgl = TextEditingController();
+  final _usia = TextEditingController();
   final _pb = TextEditingController();
   final _bb = TextEditingController();
 
-  DateTime? _tanggal;
-  double _panjangBadan = 25.0;
+  double _tinggiBadan = 25.0;
   double _beratBadan = 10.00;
 
   @override
@@ -73,57 +72,43 @@ class _BabyTambahPertumbuhanScreenState extends State<BabyTambahPertumbuhanScree
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Input(
-                  controller: _tgl,
-                  label: "Tanggal",
-                  readOnly: true,
-                  onTap: () async {
-                    final date = await showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime(1900),
-                      lastDate: DateTime.now(),
-                    );
-                    if (date != null) {
-                      setState(() {
-                        _tanggal = date;
-                        _tgl.text = DateFormat(
-                          'dd MMMM yyyy',
-                          'ID',
-                        ).format(date);
-                      });
-                    }
-                  },
+                  controller: _usia,
+                  label: "Usia (Minggu)",
                   icon: const Icon(Icons.calendar_today),
-                  hintText: "Pilih tanggal",
+                  hintText: "Masukkan usia",
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                  ],
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return "Tanggal tidak boleh kosong";
+                      return "Usia tidak boleh kosong";
                     }
                     return null;
                   },
                 ),
                 Input(
                   controller: _pb,
-                  label: "Panjang Badan (cm)",
+                  label: "Tinggi Badan (cm)",
                   icon: const Icon(Icons.height),
                   hintText: "Masukkan tinggi badan",
                   readOnly: true,
                   onTap: () => showDialog(
                     context: context,
                     builder: (context) => AlertDialog(
-                      title: const Text("Panjang Badan"),
+                      title: const Text("Tinggi Badan"),
                       content: StatefulBuilder(
                         builder: (context, setState1) {
                           return Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               DecimalNumberPicker(
-                                value: _panjangBadan,
+                                value: _tinggiBadan,
                                 minValue: 0,
                                 maxValue: 200,
                                 decimalPlaces: 1,
                                 onChanged: (value) => setState1(() {
-                                  _panjangBadan = value;
+                                  _tinggiBadan = value;
                                 }),
                               ),
                             ],
@@ -133,7 +118,7 @@ class _BabyTambahPertumbuhanScreenState extends State<BabyTambahPertumbuhanScree
                       actions: [
                         TextButton(
                           onPressed: () {
-                            _pb.text = _panjangBadan.toString();
+                            _pb.text = _tinggiBadan.toString();
                             Navigator.pop(context);
                           },
                           child: const Text("Tutup"),
@@ -143,7 +128,7 @@ class _BabyTambahPertumbuhanScreenState extends State<BabyTambahPertumbuhanScree
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return "Panjang badan tidak boleh kosong";
+                      return "Tinggi badan tidak boleh kosong";
                     }
                     return null;
                   },
@@ -201,8 +186,8 @@ class _BabyTambahPertumbuhanScreenState extends State<BabyTambahPertumbuhanScree
                       context.read<PertumbuhanCubit>().storePertumbuhan(
                             widget.bayi,
                             DataPertumbuhan(
-                              tanggal: _tanggal!,
-                              panjangBadan: _panjangBadan,
+                              usia: int.parse(_usia.text),
+                              tinggiBadan: _tinggiBadan,
                               beratBadan: _beratBadan,
                             ),
                           );
