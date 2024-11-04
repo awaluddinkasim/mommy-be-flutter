@@ -16,8 +16,10 @@ class LaktasiGrafikCubit extends Cubit<LaktasiGrafikState> {
 
       emit(
         LaktasiGrafikSuccess(
-          kiri: response['kiri'] ?? [],
-          kanan: response['kanan'] ?? [],
+          kiriHarian: response['kiri_harian'] ?? [],
+          kananHarian: response['kanan_harian'] ?? [],
+          kiriMingguan: response['kiri_mingguan'] ?? [],
+          kananMingguan: response['kanan_mingguan'] ?? [],
         ),
       );
     } catch (e) {

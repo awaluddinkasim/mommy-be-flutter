@@ -71,8 +71,7 @@ class _LaktasiRiwayatScreenState extends State<LaktasiRiwayatScreen> {
                             crossAxisAlignment: WrapCrossAlignment.center,
                             children: [
                               Text(
-                                DateFormat('dd MMMM yyyy', 'ID')
-                                    .format(_tanggal),
+                                DateFormat('dd MMMM yyyy', 'ID').format(_tanggal),
                                 style: const TextStyle(
                                   fontSize: 16,
                                 ),
@@ -92,8 +91,7 @@ class _LaktasiRiwayatScreenState extends State<LaktasiRiwayatScreen> {
                                         _tanggal = value;
                                       });
 
-                                      riwayat.getLaktasi(
-                                          widget.baby.id, _tanggal);
+                                      riwayat.getLaktasi(widget.baby.id, _tanggal);
                                     }
                                   });
                                 },
@@ -117,9 +115,7 @@ class _LaktasiRiwayatScreenState extends State<LaktasiRiwayatScreen> {
                               );
                             }
 
-                            context
-                                .read<LaktasiGrafikCubit>()
-                                .getLaktasiCharts(widget.baby.id, _tanggal);
+                            context.read<LaktasiGrafikCubit>().getLaktasiCharts(widget.baby.id, _tanggal);
 
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -130,8 +126,7 @@ class _LaktasiRiwayatScreenState extends State<LaktasiRiwayatScreen> {
                                       context: context,
                                       builder: (context) {
                                         return Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 36),
+                                          padding: const EdgeInsets.symmetric(vertical: 36),
                                           child: Column(
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
@@ -161,8 +156,7 @@ class _LaktasiRiwayatScreenState extends State<LaktasiRiwayatScreen> {
                                       },
                                     );
                                   },
-                                  icon: const Icon(
-                                      CupertinoIcons.chart_bar_circle),
+                                  icon: const Icon(CupertinoIcons.chart_bar_circle),
                                   label: const Text("Chart"),
                                 ),
                                 const SizedBox(height: 16),
@@ -179,8 +173,7 @@ class _LaktasiRiwayatScreenState extends State<LaktasiRiwayatScreen> {
                                         cells: [
                                           DataCell(Text(laktasi.posisi)),
                                           DataCell(
-                                            Text(DateFormat('HH:mm')
-                                                .format(laktasi.pukul)),
+                                            Text(DateFormat('HH:mm').format(laktasi.pukul)),
                                           ),
                                           DataCell(
                                             Text(laktasi.durasi),
@@ -205,12 +198,8 @@ class _LaktasiRiwayatScreenState extends State<LaktasiRiwayatScreen> {
                           return Padding(
                             padding: const EdgeInsets.symmetric(vertical: 24),
                             child: RetryButton(
-                              message: (state is LaktasiFailed)
-                                  ? state.message
-                                  : "Terjadi kesalahan",
-                              onPressed: () => context
-                                  .read<LaktasiCubit>()
-                                  .getLaktasi(widget.baby.id, _tanggal),
+                              message: (state is LaktasiFailed) ? state.message : "Terjadi kesalahan",
+                              onPressed: () => context.read<LaktasiCubit>().getLaktasi(widget.baby.id, _tanggal),
                             ),
                           );
                         },
@@ -363,7 +352,7 @@ class _ChartHarianState extends State<_ChartHarian> {
                         series: [
                           LineSeries<LaktasiGrafik, dynamic>(
                             animationDuration: 500,
-                            dataSource: state.kiri
+                            dataSource: state.kiriHarian
                                 .map(
                                   (e) => LaktasiGrafik(
                                     e.index,
@@ -373,8 +362,7 @@ class _ChartHarianState extends State<_ChartHarian> {
                                 )
                                 .toList(),
                             xValueMapper: (LaktasiGrafik data, _) => data.index,
-                            yValueMapper: (LaktasiGrafik data, _) =>
-                                data.durasi,
+                            yValueMapper: (LaktasiGrafik data, _) => data.durasi,
                           ),
                         ],
                       ),
@@ -398,7 +386,7 @@ class _ChartHarianState extends State<_ChartHarian> {
                         series: [
                           LineSeries<LaktasiGrafik, dynamic>(
                             animationDuration: 500,
-                            dataSource: state.kanan
+                            dataSource: state.kananHarian
                                 .map(
                                   (e) => LaktasiGrafik(
                                     e.index,
@@ -408,8 +396,7 @@ class _ChartHarianState extends State<_ChartHarian> {
                                 )
                                 .toList(),
                             xValueMapper: (LaktasiGrafik data, _) => data.index,
-                            yValueMapper: (LaktasiGrafik data, _) =>
-                                data.durasi,
+                            yValueMapper: (LaktasiGrafik data, _) => data.durasi,
                           ),
                         ],
                       ),
@@ -420,12 +407,8 @@ class _ChartHarianState extends State<_ChartHarian> {
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 24),
                   child: RetryButton(
-                    message: (state is LaktasiGrafikFailed)
-                        ? state.message
-                        : "Terjadi kesalahan",
-                    onPressed: () => context
-                        .read<LaktasiGrafikCubit>()
-                        .getLaktasiCharts(widget.baby.id, widget.tanggal),
+                    message: (state is LaktasiGrafikFailed) ? state.message : "Terjadi kesalahan",
+                    onPressed: () => context.read<LaktasiGrafikCubit>().getLaktasiCharts(widget.baby.id, widget.tanggal),
                   ),
                 );
               },
@@ -496,10 +479,7 @@ class _ChartMingguanState extends State<_ChartMingguan> {
                           text: 'Durasi Rata-rata Kiri',
                         ),
                         primaryXAxis: const CategoryAxis(
-                          interval: 1,
-                          title: AxisTitle(
-                            text: 'Hari',
-                          ),
+                          labelIntersectAction: AxisLabelIntersectAction.rotate45,
                         ),
                         primaryYAxis: const NumericAxis(
                           title: AxisTitle(
@@ -509,7 +489,7 @@ class _ChartMingguanState extends State<_ChartMingguan> {
                         series: [
                           LineSeries<LaktasiGrafik, dynamic>(
                             animationDuration: 500,
-                            dataSource: state.kiri
+                            dataSource: state.kiriMingguan
                                 .map(
                                   (e) => LaktasiGrafik(
                                     e.index,
@@ -518,10 +498,8 @@ class _ChartMingguanState extends State<_ChartMingguan> {
                                   ),
                                 )
                                 .toList(),
-                            xValueMapper: (LaktasiGrafik data, _) =>
-                                DateFormat('EEEE', 'ID').format(data.tanggal),
-                            yValueMapper: (LaktasiGrafik data, _) =>
-                                data.durasi,
+                            xValueMapper: (LaktasiGrafik data, _) => DateFormat('EEEE', 'ID').format(data.tanggal),
+                            yValueMapper: (LaktasiGrafik data, _) => data.durasi,
                           ),
                         ],
                       ),
@@ -531,10 +509,7 @@ class _ChartMingguanState extends State<_ChartMingguan> {
                           text: 'Durasi Rata-rata Kanan',
                         ),
                         primaryXAxis: const CategoryAxis(
-                          interval: 1,
-                          title: AxisTitle(
-                            text: 'Hari',
-                          ),
+                          labelIntersectAction: AxisLabelIntersectAction.rotate45,
                         ),
                         primaryYAxis: const NumericAxis(
                           title: AxisTitle(
@@ -545,7 +520,7 @@ class _ChartMingguanState extends State<_ChartMingguan> {
                         series: [
                           LineSeries<LaktasiGrafik, dynamic>(
                             animationDuration: 500,
-                            dataSource: state.kanan
+                            dataSource: state.kananMingguan
                                 .map(
                                   (e) => LaktasiGrafik(
                                     e.index,
@@ -554,10 +529,8 @@ class _ChartMingguanState extends State<_ChartMingguan> {
                                   ),
                                 )
                                 .toList(),
-                            xValueMapper: (LaktasiGrafik data, _) =>
-                                DateFormat('EEEE', 'ID').format(data.tanggal),
-                            yValueMapper: (LaktasiGrafik data, _) =>
-                                data.durasi,
+                            xValueMapper: (LaktasiGrafik data, _) => DateFormat('EEEE', 'ID').format(data.tanggal),
+                            yValueMapper: (LaktasiGrafik data, _) => data.durasi,
                           ),
                         ],
                       ),
@@ -568,12 +541,8 @@ class _ChartMingguanState extends State<_ChartMingguan> {
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 24),
                   child: RetryButton(
-                    message: (state is LaktasiGrafikFailed)
-                        ? state.message
-                        : "Terjadi kesalahan",
-                    onPressed: () => context
-                        .read<LaktasiGrafikCubit>()
-                        .getLaktasiCharts(widget.baby.id, widget.tanggal),
+                    message: (state is LaktasiGrafikFailed) ? state.message : "Terjadi kesalahan",
+                    onPressed: () => context.read<LaktasiGrafikCubit>().getLaktasiCharts(widget.baby.id, widget.tanggal),
                   ),
                 );
               },

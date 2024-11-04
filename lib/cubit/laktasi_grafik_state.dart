@@ -13,16 +13,25 @@ class LaktasiGrafikInitial extends LaktasiGrafikState {}
 class LaktasiGrafikLoading extends LaktasiGrafikState {}
 
 class LaktasiGrafikSuccess extends LaktasiGrafikState {
-  final List<LaktasiGrafik> kiri;
-  final List<LaktasiGrafik> kanan;
+  final List<LaktasiGrafik> kiriHarian;
+  final List<LaktasiGrafik> kananHarian;
+  final List<LaktasiGrafik> kiriMingguan;
+  final List<LaktasiGrafik> kananMingguan;
 
   const LaktasiGrafikSuccess({
-    required this.kiri,
-    required this.kanan,
+    required this.kiriHarian,
+    required this.kananHarian,
+    required this.kiriMingguan,
+    required this.kananMingguan,
   });
 
   @override
-  List<Object> get props => [kiri, kanan];
+  List<Object> get props => [
+        kiriHarian,
+        kananHarian,
+        kiriMingguan,
+        kananMingguan,
+      ];
 }
 
 class LaktasiGrafikFailed extends LaktasiGrafikState {
