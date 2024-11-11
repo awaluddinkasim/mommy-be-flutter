@@ -34,6 +34,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         ),
       );
     } catch (e) {
+      navigator.pop();
       messanger.showSnackBar(
         SnackBar(
           content: Text(e.toString()),
