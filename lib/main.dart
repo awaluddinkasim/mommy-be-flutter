@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:mommy_be/cubit/auth_cubit.dart';
 import 'package:mommy_be/cubit/bayi_cubit.dart';
@@ -18,6 +19,8 @@ import 'package:mommy_be/loading.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 void main() async {
+  await dotenv.load(fileName: ".env");
+
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
@@ -41,18 +44,11 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> initPlatformState() async {
-    OneSignal.initialize("28e95bbd-cd71-4749-8c61-6b0cb8901c70");
+    OneSignal.initialize(dotenv.env['ONESIGNAL_APP_ID']!);
 
     OneSignal.Notifications.requestPermission(true);
 
     OneSignal.Notifications.clearAll();
-
-    OneSignal.User.pushSubscription.addObserver((state) {
-      print(OneSignal.User.pushSubscription.optedIn);
-      print(OneSignal.User.pushSubscription.id);
-      print(OneSignal.User.pushSubscription.token);
-      print(state.current.jsonRepresentation());
-    });
   }
 
   @override

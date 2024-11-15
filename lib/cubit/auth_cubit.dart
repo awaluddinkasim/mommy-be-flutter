@@ -3,6 +3,7 @@ import 'package:mommy_be/cubit/auth_state.dart';
 import 'package:mommy_be/models/user.dart';
 import 'package:mommy_be/shared/constants.dart';
 import 'package:mommy_be/shared/services/auth_service.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   final AuthService _authService = AuthService();
@@ -22,6 +23,7 @@ class AuthCubit extends Cubit<AuthState> {
       if (token != null) {
         final result = await _authService.getUser(token);
 
+        OneSignal.login(result.user.email);
         emit(AuthSuccess(result));
       } else {
         emit(AuthInitial());
@@ -39,6 +41,8 @@ class AuthCubit extends Cubit<AuthState> {
       final auth = await _authService.login(email, password);
 
       await Constants.storage.write(key: 'token', value: auth.token);
+
+      OneSignal.login(auth.user.email);
 
       emit(AuthSuccess(auth));
     } catch (e) {

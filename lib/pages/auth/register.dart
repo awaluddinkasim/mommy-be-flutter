@@ -83,6 +83,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   label: "Nama",
                   icon: const Icon(Icons.person),
                   hintText: "Masukkan nama lengkap",
+                  textCapitalization: TextCapitalization.words,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return "Nama tidak boleh kosong";
