@@ -33,25 +33,41 @@ class LaktasiService {
       'Authorization': 'Bearer $token',
     });
 
-    List<LaktasiGrafik> kiri = [];
-    List<LaktasiGrafik> kanan = [];
+    List<LaktasiGrafik> kiriHarian = [];
+    List<LaktasiGrafik> kananHarian = [];
 
     for (int i = 0; i < response['data']['kiri'].length; i++) {
+      DateTime tanggalInit = DateTime.parse(response['data']['kiri'][i]['tanggal']).subtract(const Duration(days: 1));
+
       if (response['data']['kiri'].length == 1) {
-        kiri.add(LaktasiGrafik.fromJson({'durasi': 0.0}, 0));
+        kiriHarian.add(LaktasiGrafik.fromJson({'durasi': 0.0, 'tanggal': tanggalInit.toString()}, 0));
       }
-      kiri.add(LaktasiGrafik.fromJson(response['data']['kiri'][i], i + 1));
+      kiriHarian.add(LaktasiGrafik.fromJson(response['data']['kiri'][i], i + 1));
     }
     for (int i = 0; i < response['data']['kanan'].length; i++) {
+      DateTime tanggalInit = DateTime.parse(response['data']['kanan'][i]['tanggal']).subtract(const Duration(days: 1));
+
       if (response['data']['kanan'].length == 1) {
-        kanan.add(LaktasiGrafik.fromJson({'durasi': 0.0}, 0));
+        kananHarian.add(LaktasiGrafik.fromJson({'durasi': 0.0, 'tanggal': tanggalInit.toString()}, 0));
       }
-      kanan.add(LaktasiGrafik.fromJson(response['data']['kanan'][i], i + 1));
+      kananHarian.add(LaktasiGrafik.fromJson(response['data']['kanan'][i], i + 1));
+    }
+
+    List<LaktasiGrafik> kiriMingguan = [];
+    List<LaktasiGrafik> kananMingguan = [];
+
+    for (int i = 0; i < response['data']['kiriMingguan'].length; i++) {
+      kiriMingguan.add(LaktasiGrafik.fromJson(response['data']['kiriMingguan'][i], i + 1));
+    }
+    for (int i = 0; i < response['data']['kananMingguan'].length; i++) {
+      kananMingguan.add(LaktasiGrafik.fromJson(response['data']['kananMingguan'][i], i + 1));
     }
 
     return {
-      'kiri': kiri,
-      'kanan': kanan,
+      'kiri_harian': kiriHarian,
+      'kanan_harian': kananHarian,
+      'kiri_mingguan': kiriMingguan,
+      'kanan_mingguan': kananMingguan,
     };
   }
 }

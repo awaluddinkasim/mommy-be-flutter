@@ -16,20 +16,21 @@ class BabyMonitorEkskresiScreen extends StatefulWidget {
   const BabyMonitorEkskresiScreen({super.key, required this.bayi});
 
   @override
-  State<BabyMonitorEkskresiScreen> createState() => _BabyMonitorEkskresiScreenState();
+  State<BabyMonitorEkskresiScreen> createState() =>
+      _BabyMonitorEkskresiScreenState();
 }
 
 class _BabyMonitorEkskresiScreenState extends State<BabyMonitorEkskresiScreen> {
-  final DateTime _tanggalHariIni = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+  final DateTime _tanggalHariIni =
+      DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
   late DateTime _tanggal = _tanggalHariIni;
 
   @override
   void initState() {
     super.initState();
 
+    final cubit = context.read<MonitorEkskresiCubit>();
     Future.delayed(Duration.zero, () {
-      final cubit = context.read<MonitorEkskresiCubit>();
-
       cubit.getMonitorEkskresi(widget.bayi, _tanggal);
     });
   }
@@ -106,7 +107,10 @@ class _BabyMonitorEkskresiScreenState extends State<BabyMonitorEkskresiScreen> {
                     padding: const EdgeInsets.fromLTRB(16, 24, 16, 0),
                     child: FilledButton(
                       onPressed: () {
-                        showDialog(context: context, builder: (context) => _FormDialog(widget.bayi, _tanggal));
+                        showDialog(
+                            context: context,
+                            builder: (context) =>
+                                _FormDialog(widget.bayi, _tanggal));
                       },
                       child: const Text("Tambah Data"),
                     ),
@@ -165,24 +169,38 @@ class _BabyMonitorEkskresiScreenState extends State<BabyMonitorEkskresiScreen> {
                                   children: [
                                     TableRow(
                                       children: [
-                                        const TableCell(child: Text("Buang Air Kecil")),
+                                        const TableCell(
+                                            child: Text("Buang Air Kecil")),
                                         const TableCell(child: Text(":")),
                                         TableCell(
                                           child: Text(
-                                            state.monitorEkskresi.where((e) => e.ekskresi == "Buang Air Kecil").length.toString(),
-                                            style: const TextStyle(fontWeight: FontWeight.bold),
+                                            state.monitorEkskresi
+                                                .where((e) =>
+                                                    e.ekskresi ==
+                                                    "Buang Air Kecil")
+                                                .length
+                                                .toString(),
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold),
                                           ),
                                         ),
                                       ],
                                     ),
                                     TableRow(
                                       children: [
-                                        const TableCell(child: Text("Buang Air Besar")),
+                                        const TableCell(
+                                            child: Text("Buang Air Besar")),
                                         const TableCell(child: Text(":")),
                                         TableCell(
                                           child: Text(
-                                            state.monitorEkskresi.where((e) => e.ekskresi == "Buang Air Besar").length.toString(),
-                                            style: const TextStyle(fontWeight: FontWeight.bold),
+                                            state.monitorEkskresi
+                                                .where((e) =>
+                                                    e.ekskresi ==
+                                                    "Buang Air Besar")
+                                                .length
+                                                .toString(),
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold),
                                           ),
                                         ),
                                       ],
@@ -192,7 +210,8 @@ class _BabyMonitorEkskresiScreenState extends State<BabyMonitorEkskresiScreen> {
                               ],
                             ),
                           ),
-                          for (MonitorEkskresi data in state.monitorEkskresi) _DataItem(data: data, widget: widget),
+                          for (MonitorEkskresi data in state.monitorEkskresi)
+                            _DataItem(data: data, widget: widget),
                         ],
                       );
                     }
@@ -200,8 +219,12 @@ class _BabyMonitorEkskresiScreenState extends State<BabyMonitorEkskresiScreen> {
                     return Padding(
                       padding: const EdgeInsets.symmetric(vertical: 24),
                       child: RetryButton(
-                        message: (state is MonitorEkskresiFailed) ? state.message : "Terjadi kesalahan",
-                        onPressed: () => context.read<MonitorEkskresiCubit>().getMonitorEkskresi(widget.bayi, _tanggal),
+                        message: (state is MonitorEkskresiFailed)
+                            ? state.message
+                            : "Terjadi kesalahan",
+                        onPressed: () => context
+                            .read<MonitorEkskresiCubit>()
+                            .getMonitorEkskresi(widget.bayi, _tanggal),
                       ),
                     );
                   },
@@ -248,7 +271,9 @@ class _DataItem extends StatelessWidget {
                     children: [
                       ListTile(
                         onTap: () {
-                          context.read<MonitorEkskresiCubit>().deleteMonitorEkskresi(
+                          context
+                              .read<MonitorEkskresiCubit>()
+                              .deleteMonitorEkskresi(
                                 widget.bayi,
                                 data.id,
                               );

@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:mommy_be/cubit/pertumbuhan_cubit.dart';
 import 'package:mommy_be/cubit/pertumbuhan_state.dart';
 import 'package:mommy_be/models/bayi.dart';
@@ -23,8 +22,9 @@ class _BabyPertumbuhanScreenState extends State<BabyPertumbuhanScreen> {
   void initState() {
     super.initState();
 
+    final cubit = context.read<PertumbuhanCubit>();
     Future.delayed(Duration.zero, () {
-      context.read<PertumbuhanCubit>().getPertumbuhan(widget.bayi);
+      cubit.getPertumbuhan(widget.bayi);
     });
   }
 
@@ -87,26 +87,43 @@ class _BabyPertumbuhanScreenState extends State<BabyPertumbuhanScreen> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: SfCartesianChart(
                                   title: const ChartTitle(
-                                    text: 'Chart Pertumbuhan',
+                                    text: 'Chart Tinggi Badan',
                                   ),
-                                  primaryXAxis: const CategoryAxis(),
-                                  primaryYAxis: const NumericAxis(),
-                                  legend: const Legend(isVisible: true),
+                                  primaryXAxis: const NumericAxis(
+                                    title: AxisTitle(text: "Usia (Minggu)"),
+                                    interval: 1,
+                                  ),
+                                  primaryYAxis: const NumericAxis(
+                                    title: AxisTitle(text: "Tinggi (cm)"),
+                                  ),
                                   series: [
-                                    AreaSeries<Pertumbuhan, dynamic>(
-                                      name: 'Panjang Badan',
-                                      color: Colors.green.withOpacity(0.3),
+                                    LineSeries<Pertumbuhan, dynamic>(
                                       animationDuration: 500,
                                       dataSource: state.pertumbuhan,
-                                      xValueMapper: (Pertumbuhan data, _) => DateFormat('dd MMM yy', 'ID').format(data.tanggal),
-                                      yValueMapper: (Pertumbuhan data, _) => data.panjangBadan,
+                                      xValueMapper: (Pertumbuhan data, _) => data.usia,
+                                      yValueMapper: (Pertumbuhan data, _) => data.tinggiBadan,
                                     ),
-                                    AreaSeries<Pertumbuhan, dynamic>(
-                                      name: 'Berat Badan',
-                                      color: Colors.blue.withOpacity(0.3),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: SfCartesianChart(
+                                  title: const ChartTitle(
+                                    text: 'Chart Berat Badan',
+                                  ),
+                                  primaryXAxis: const NumericAxis(
+                                    title: AxisTitle(text: "Usia (Minggu)"),
+                                    interval: 1,
+                                  ),
+                                  primaryYAxis: const NumericAxis(
+                                    title: AxisTitle(text: "Berat Badan (kg)"),
+                                  ),
+                                  series: [
+                                    LineSeries<Pertumbuhan, dynamic>(
                                       animationDuration: 500,
                                       dataSource: state.pertumbuhan,
-                                      xValueMapper: (Pertumbuhan data, _) => DateFormat('dd MMM yy', 'ID').format(data.tanggal),
+                                      xValueMapper: (Pertumbuhan data, _) => data.usia,
                                       yValueMapper: (Pertumbuhan data, _) => data.beratBadan,
                                     ),
                                   ],
@@ -151,14 +168,14 @@ class _DataItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12),
       child: ListTile(
-        title: Text(DateFormat('dd MMMM yyyy', 'ID').format(data.tanggal)),
+        title: Text('Usia minggu ke-${data.usia}'),
         subtitle: Row(
           children: [
             const Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Text("Panjang Badan"),
+                  Text("Tinggi Badan"),
                   Text("Berat Badan"),
                 ],
               ),
@@ -168,7 +185,7 @@ class _DataItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
-                    "${data.panjangBadan} cm",
+                    "${data.tinggiBadan} cm",
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                   Text(

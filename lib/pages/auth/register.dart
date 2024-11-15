@@ -25,6 +25,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _tanggalLahir = TextEditingController();
   final _nomorHp = TextEditingController();
 
+  bool _showPassword = false;
+  bool _showPasswordConfirmation = false;
+
   late DateTime _dob;
 
   Future<void> _submit() async {
@@ -104,7 +107,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   label: "Password",
                   icon: const Icon(Icons.lock),
                   hintText: "Masukkan password",
-                  obscureText: true,
+                  obscureText: !_showPassword,
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        _showPassword = !_showPassword;
+                      });
+                    },
+                    icon: Icon(_showPassword ? Icons.visibility_off : Icons.visibility),
+                  ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return "Password tidak boleh kosong";
@@ -120,7 +131,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   label: "Konfirmasi Password",
                   icon: const Icon(Icons.lock),
                   hintText: "Masukkan ulang password",
-                  obscureText: true,
+                  obscureText: !_showPasswordConfirmation,
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        _showPasswordConfirmation = !_showPasswordConfirmation;
+                      });
+                    },
+                    icon: Icon(_showPasswordConfirmation ? Icons.visibility_off : Icons.visibility),
+                  ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return "Konfirmasi password tidak boleh kosong";

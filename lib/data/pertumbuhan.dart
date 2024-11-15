@@ -1,17 +1,17 @@
 class DataPertumbuhan {
-  final DateTime tanggal;
+  final int usia;
   final double beratBadan;
-  final double panjangBadan;
+  final double tinggiBadan;
 
   DataPertumbuhan({
-    required this.tanggal,
+    required this.usia,
     required this.beratBadan,
-    required this.panjangBadan,
+    required this.tinggiBadan,
   });
 
   Map<String, dynamic> toJson() => {
-        'tanggal': tanggal.toString(),
+        'usia': usia.toString(),
         'berat_badan': beratBadan,
-        'panjang_badan': panjangBadan,
+        'panjang_badan': tinggiBadan,
       };
 }

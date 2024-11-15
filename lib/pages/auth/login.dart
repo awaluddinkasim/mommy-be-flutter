@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mommy_be/cubit/auth_cubit.dart';
 import 'package:mommy_be/cubit/auth_state.dart';
 import 'package:mommy_be/pages/auth/register.dart';
+import 'package:mommy_be/pages/forgot_password.dart';
 import 'package:mommy_be/pages/home.dart';
 import 'package:mommy_be/shared/widgets/dialog/loading.dart';
 import 'package:mommy_be/shared/widgets/dialog/message.dart';
@@ -117,7 +118,23 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: const Text("L O G I N"),
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 12),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ForgotPasswordScreen(),
+                    ),
+                  );
+                },
+                child: Text(
+                  "Lupa Password",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Theme.of(context).primaryColor),
+                ),
+              ),
+              const SizedBox(height: 32),
               Column(
                 children: [
                   const Text(
