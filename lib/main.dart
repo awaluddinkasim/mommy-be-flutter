@@ -15,6 +15,7 @@ import 'package:mommy_be/cubit/pertumbuhan_cubit.dart';
 import 'package:mommy_be/cubit/screening_ppd_cubit.dart';
 import 'package:mommy_be/cubit/status_gizi_cubit.dart';
 import 'package:mommy_be/loading.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,8 +26,34 @@ void main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+    initPlatformState();
+  }
+
+  Future<void> initPlatformState() async {
+    OneSignal.initialize("28e95bbd-cd71-4749-8c61-6b0cb8901c70");
+
+    OneSignal.Notifications.requestPermission(true);
+
+    OneSignal.Notifications.clearAll();
+
+    OneSignal.User.pushSubscription.addObserver((state) {
+      print(OneSignal.User.pushSubscription.optedIn);
+      print(OneSignal.User.pushSubscription.id);
+      print(OneSignal.User.pushSubscription.token);
+      print(state.current.jsonRepresentation());
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
