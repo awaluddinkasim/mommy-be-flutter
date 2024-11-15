@@ -26,9 +26,11 @@ class AuthCubit extends Cubit<AuthState> {
         OneSignal.login(result.user.email);
         emit(AuthSuccess(result));
       } else {
+        OneSignal.logout();
         emit(AuthInitial());
       }
     } catch (e) {
+      OneSignal.logout();
       await Constants.storage.delete(key: 'token');
       emit(AuthFailed(e.toString()));
     }
@@ -58,6 +60,8 @@ class AuthCubit extends Cubit<AuthState> {
 
       await _authService.logout(token!);
       await Constants.storage.delete(key: 'token');
+
+      OneSignal.logout();
 
       emit(AuthInitial());
     } catch (e) {
