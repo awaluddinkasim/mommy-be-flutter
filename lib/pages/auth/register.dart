@@ -7,6 +7,7 @@ import 'package:mommy_be/shared/dio.dart';
 import 'package:mommy_be/shared/widgets/dialog/loading.dart';
 import 'package:mommy_be/shared/widgets/input.dart';
 import 'package:mommy_be/shared/widgets/page_title.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -27,6 +28,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   bool _showPassword = false;
   bool _showPasswordConfirmation = false;
+
+  bool _privacyPolicy = false;
 
   late DateTime _dob;
 
@@ -197,17 +200,45 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     return null;
                   },
                 ),
+                CheckboxListTile(
+                  controlAffinity: ListTileControlAffinity.leading,
+                  contentPadding: const EdgeInsets.all(0),
+                  title: Row(
+                    children: [
+                      const Text("Saya menyetujui "),
+                      GestureDetector(
+                        onTap: () async {
+                          await launchUrl(Uri.parse("${Constants.baseUrl}/privacy-policy"), mode: LaunchMode.externalApplication);
+                        },
+                        child: const Text(
+                          "Kebijakan Privasi",
+                          style: TextStyle(
+                            color: Colors.blue,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  value: _privacyPolicy,
+                  onChanged: (value) {
+                    setState(() {
+                      _privacyPolicy = value!;
+                    });
+                  },
+                ),
                 const SizedBox(height: 16),
                 FilledButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      showDialog(
-                        context: context,
-                        builder: (context) => const LoadingDialog(),
-                      );
-                      _submit();
-                    }
-                  },
+                  onPressed: _privacyPolicy
+                      ? () {
+                          if (_formKey.currentState!.validate()) {
+                            showDialog(
+                              context: context,
+                              builder: (context) => const LoadingDialog(),
+                            );
+                            _submit();
+                          }
+                        }
+                      : null,
                   child: const Text("Daftar"),
                 ),
               ],

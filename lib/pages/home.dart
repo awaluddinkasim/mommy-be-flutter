@@ -122,18 +122,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     _GridMenuItem(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const NutrisiHarianScreen(),
-                          ),
-                        );
-                      },
-                      image: Image.asset('assets/food.png'),
-                      label: 'Nutrisi Harian',
-                    ),
-                    _GridMenuItem(
-                      onTap: () {
                         context.read<ObstetriCubit>().getObstetri();
                         Navigator.push(
                           context,
@@ -147,6 +135,18 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     _GridMenuItem(
                       onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const NutrisiHarianScreen(),
+                          ),
+                        );
+                      },
+                      image: Image.asset('assets/food.png'),
+                      label: 'Nutrisi Harian',
+                    ),
+                    _GridMenuItem(
+                      onTap: () {
                         context.read<BayiCubit>().getBayi();
                         Navigator.push(
                           context,
@@ -157,6 +157,18 @@ class _HomeScreenState extends State<HomeScreen> {
                       },
                       image: Image.asset('assets/bottle.png'),
                       label: 'Monitor Laktasi',
+                    ),
+                    _GridMenuItem(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ScreeningPPDScreen(),
+                          ),
+                        );
+                      },
+                      image: Image.asset('assets/ppd.png'),
+                      label: 'Screening PPD',
                     ),
                   ],
                 )
@@ -180,19 +192,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     _HorizontalMenuItem(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const NutrisiHarianScreen(),
-                          ),
-                        );
-                      },
-                      image: Image.asset('assets/food.png'),
-                      label: 'Nutrisi Harian',
-                      deskripsi: 'Lacak dan rencanakan asupan nutrisi harian.',
-                    ),
-                    _HorizontalMenuItem(
-                      onTap: () {
                         context.read<ObstetriCubit>().getObstetri();
                         Navigator.push(
                           context,
@@ -204,6 +203,19 @@ class _HomeScreenState extends State<HomeScreen> {
                       image: Image.asset('assets/pregnancy.png'),
                       label: 'Obstetri',
                       deskripsi: 'Panduan seputar kehamilan dan persalinan.',
+                    ),
+                    _HorizontalMenuItem(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const NutrisiHarianScreen(),
+                          ),
+                        );
+                      },
+                      image: Image.asset('assets/food.png'),
+                      label: 'Nutrisi Harian',
+                      deskripsi: 'Lacak dan rencanakan asupan nutrisi harian.',
                     ),
                     _HorizontalMenuItem(
                       onTap: () {
